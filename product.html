@@ -1,0 +1,17 @@
+<div class="productWrapper">
+  <div class="banner">
+    <span ng-click="product.expanded = !product.expanded" ng-show="product.expanded">-</span>
+    <span ng-click="product.expanded = !product.expanded" ng-hide="product.expanded">+</span>
+    Product
+  </div>
+  <div ng-if="product.expanded">  
+    <div ng-repeat="(key, value) in product">
+      <div ng-if="key != 'Components' && key != 'expanded'">{{key}}:{{value}}</div>
+    </div>
+    <div ng-repeat="(key, value) in product">
+      <div ng-if="key == 'Components'" >
+        <component ng-repeat = "component in value" data="component"></div>
+      </div>
+    </div>
+  </div>
+</div>

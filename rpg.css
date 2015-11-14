@@ -1,0 +1,10 @@
+.batchWrapper, .productWrapper, .componentWrapper {
+	margin-left: 20px;
+	border: solid black 1px;
+}
+
+.batchWrapper div.banner, .productWrapper div.banner, .componentWrapper div.banner {
+	font-weight: bold;
+	font-size: 120%;
+	background-color: #999;
+}

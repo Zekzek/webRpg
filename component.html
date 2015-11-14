@@ -1,0 +1,17 @@
+<div class="componentWrapper">
+  <div class="banner">
+    <span ng-click="component.expanded = !component.expanded" ng-show="component.expanded">-</span>
+    <span ng-click="component.expanded = !component.expanded" ng-hide="component.expanded">+</span>
+    Component
+  </div>
+  <div ng-if="component.expanded">  
+    <div ng-repeat="(key, value) in component">
+      <div ng-if="key != 'FulfilledBy' && key != 'expanded'">{{key}}:{{value}}</div>
+    </div>
+    <div ng-repeat="(key, value) in component">
+      <div ng-if="key == 'FulfilledBy'" ng-repeat = "batch in value">
+        <batch data="batch"></batch>
+      </div>
+    </div>
+  </div>
+</div>
