@@ -67,12 +67,10 @@ recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
 	
 	$scope.getAction = function(id, actionGroup) {
 		if (id == actionGroup.id) {
-			console.log(id,'==',actionGroup.id);
 			return actionGroup;
 		} else {
-			console.log(id,'!=',actionGroup.id);
-			for (var action in actionGroup) {
-				var theAction = $scope.getAction(id, action);
+			for (var i in actionGroup.list) {
+				var theAction = $scope.getAction(id, actionGroup.list[i]);
 				if (theAction) {
 					return theAction;
 				}
@@ -86,13 +84,11 @@ recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
 	};
 	
 	$scope.toggleExpansion = function(id) {
-		console.log('toggleExpansion',id);
 		var field = $scope.getWarriorAction(id);
 		field.expanded = !field.expanded;
 	};
 	
 	$scope.$on("toggleExpansion", function(event, args) {
-		console.log("received toggleExpansion", args);
 		var field = $scope.getWarriorAction(args);
 		field.expanded = !field.expanded;
 	});
@@ -115,7 +111,7 @@ recursiveApp.directive('actionGroup', function() {
 	return {
 		restrict : 'E',
 		scope : { 
-			data: '=*data',
+			data: '=*data'
 		},
 		template : '<div ng-include="\'action.html\'"></div>'
 	};
