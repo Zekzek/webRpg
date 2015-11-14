@@ -8,9 +8,7 @@
     <script type="text/javascript" src="rpg.js"></script>
   </head>
   <body ng-controller="rpgCtrl">
-    <h3>JSON object behind the scenes</h3>
-    <textarea rows="4" style="width:100%">{{data}}</textarea>
-    <h3>Traversable Display</h3>
-    <batch data="data[0]"></batch>
+    <h3>Unnamed RPG</h3>
+    <action_group data="warrior.actions" send-toggle-expansion="sendToggleExpansion(id)"></action_group>
   </body>
 </html>
