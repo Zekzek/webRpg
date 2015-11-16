@@ -4,6 +4,6 @@
   </div>
   <div ng-if="data.expanded" ng-repeat="action in data.list">
     <action_group ng-if="action.list" data="action" send-toggle-expansion="sendToggleExpansion(action)"></action_group>
-    <action ng-if="!action.list" data="action"></action>
+    <span ng-if="!action.list" ng-attr-title="{{action.description}}">{{action.name}}</span>
   </div>
 </div>

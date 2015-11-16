@@ -1,28 +1,35 @@
 var recursiveApp = angular.module('rpgApp', []);
 
 recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
+	$scope.characters = [];
+	$scope.activeCharacterIndex = 0;
 	$scope.warrior = {
+		'name': 'Warrior',
 		'actions': {
 			'name': 'Actions',
 			'id': 'actionGroup',
 			'list': [
 				{	'name': 'Combo',
 					'id': 'comboGroup',
+					'description': 'Combinations of basic attacks that utilize momentum bonuses',	
 					'list': [
 						{
 							'name': 'Rush',
 							'id': 'combo_rush',		
 							'description': 'Knockdown -> Power Strike',
+							'combo': ['attack_knockdown', 'attack_powerStrike']
 						},
 						{
 							'name': '3-hit',
 							'id': 'combo_3hit',
 							'description': 'Jab -> Jab -> Power Strike',
+							'combo': ['attack_jab', 'attack_jab', 'attack_powerStrike']
 						}
 					]
 				},
 				{	'name': 'Ability',
 					'id': 'abilityGroup',
+					'description': 'Special abilities',	
 					'list': [
 						{
 							'name': 'Challenge',
@@ -43,6 +50,7 @@ recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
 				},
 				{	'name': 'Attack',
 					'id': 'attackGroup',
+					'description': 'Basic attacks',	
 					'list': [
 						{
 							'name': 'Jab',
@@ -64,8 +72,90 @@ recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
 			]
 		}
 	};
+	$scope.archer = {
+		'name': 'Archer',
+		'actions': {
+			'name': 'Actions',
+			'id': 'actionGroup',
+			'list': [
+				{	'name': 'Combo',
+					'id': 'comboGroup',
+					'description': 'Combinations of basic attacks that utilize momentum bonuses',	
+					'list': [
+						{
+							'name': 'Keep your Distance',
+							'id': 'combo_keepYourDistance',		
+							'description': 'Pin -> Power Shot',
+							'combo': ['attack_pin', 'attack_powerShot']
+						},
+						{
+							'name': '3-hit',
+							'id': 'combo_3hit',
+							'description': 'Plunk -> Plunk -> Power Shot',
+							'combo': ['attack_plunk', 'attack_plunk', 'attack_powerShot']
+						}
+					]
+				},
+				{	'name': 'Ability',
+					'id': 'abilityGroup',
+					'description': 'Special abilities',	
+					'list': [
+						{
+							'name': 'Snare',
+							'id': 'ability_snare',
+							'description': 'Create a immobile trap',
+						},
+						{
+							'name': 'Barrage',
+							'id': 'ability_barrage',
+							'description': 'Release a lot of inaccurate arrows - "Quantity over quality"',
+						},
+						{
+							'name': 'Ignite',
+							'id': 'ability_ignite',
+							'description': 'Fire a flaming arrow',
+						}
+					]
+				},
+				{	'name': 'Attack',
+					'id': 'attackGroup',
+					'description': 'Basic attacks',	
+					'list': [
+						{
+							'name': 'Plunk',
+							'id': 'attack_plunk',
+							'description': 'Quick shot',
+						},
+						{
+							'name': 'Power Shot',
+							'id': 'attack_powerShot',
+							'description': 'Slower, more powerful attack',
+						},
+						{
+							'name': 'Pin',
+							'id': 'attack_pin',
+							'description': 'Aim for the legs, designed to lock the enemy in place',
+						}
+					]
+				}
+			]
+		}
+	};
+	
+	$scope.addCharacter = function(aChar) {
+		aChar.actionDisplayIdTree = [aChar.actions.id];
+		aChar.actionQueue = [];
+		$scope.characters.push(aChar);
+	}
+	
+	$scope.getActiveCharacter = function() {
+		return $scope.characters[$scope.activeCharacterIndex]; 
+	};	
 	
 	$scope.getAction = function(id, actionGroup) {
+		if (!actionGroup) {
+			actionGroup = $scope.getActiveCharacter().actions;
+		}
 		if (id == actionGroup.id) {
 			return actionGroup;
 		} else {
@@ -78,41 +168,43 @@ recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
 		}
 		return null;
 	};
-	
-	$scope.getWarriorAction = function(id) {
-		return $scope.getAction(id, $scope.warrior.actions); 
-	};
-	
-	$scope.toggleExpansion = function(id) {
-		var field = $scope.getWarriorAction(id);
-		field.expanded = !field.expanded;
-	};
-	
-	$scope.$on("toggleExpansion", function(event, args) {
-		var field = $scope.getWarriorAction(args);
-		field.expanded = !field.expanded;
-	});
-	
-	$scope.sendToggleExpansion = function(id) {
-		$rootScope.$broadcast("toggleExpansion", id);
-	};
-});
 
-recursiveApp.directive('actionGroup', function() {
-	return { 
-		restrict : 'E',
-		scope : { 
-			data: '=*data',
-			sendToggleExpansion: '&'
-		},
-		template : '<div ng-include="\'actionGroup.html\'"></div>'
+	$scope.updateactionDisplay = function() {
+		$scope.getActiveCharacter().actionDisplay = $scope.getAction($scope.getActiveCharacter().actionDisplayIdTree[0]);
 	};
-}).directive('action', function() {
-	return {
-		restrict : 'E',
-		scope : { 
-			data: '=*data'
-		},
-		template : '<div ng-include="\'action.html\'"></div>'
+	
+	$scope.actionMenu_select = function(action) {
+		if (action.list) {
+			$scope.getActiveCharacter().actionDisplayIdTree.unshift(action.id);
+		}
+		else {
+			if (action.combo) {
+				for (i in action.combo) {
+					$scope.getActiveCharacter().actionQueue.push($scope.getAction(action.combo[i]));
+				}
+			}
+			else {
+				$scope.getActiveCharacter().actionQueue.push(action);
+			}
+			$scope.nextCharacter();
+		}
+		$scope.updateactionDisplay();
 	};
+	
+	$scope.actionMenu_back = function() {
+		$scope.getActiveCharacter().actionDisplayIdTree.shift();
+		$scope.updateactionDisplay();
+	};
+	
+	$scope.nextCharacter= function() {
+		$scope.activeCharacterIndex++;
+		if ($scope.activeCharacterIndex >= $scope.characters.length) {
+			$scope.activeCharacterIndex = 0;
+		}
+	};
+	
+	//On initial load
+	$scope.addCharacter($scope.warrior);
+	$scope.addCharacter($scope.archer);
+	$scope.updateactionDisplay();
 });
