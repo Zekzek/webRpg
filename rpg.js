@@ -1,10 +1,21 @@
-var recursiveApp = angular.module('rpgApp', []);
+var rpgApp = angular.module('rpgApp', []);
 
-recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
+rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 	$scope.characters = [];
 	$scope.activeCharacterIndex = 0;
 	$scope.warrior = {
 		'name': 'Warrior',
+		'position': {
+			'x':1,
+			'y':1,
+			'z':0
+		},
+		'image': {
+			'left':'image/warrior/left.png',
+			'right':'image/warrior/right.png',
+			'up':'image/warrior/up.png',
+			'down':'image/warrior/down.png'
+		},
 		'actions': {
 			'name': 'Actions',
 			'id': 'actionGroup',
@@ -81,6 +92,17 @@ recursiveApp.controller('rpgCtrl', function($scope, $rootScope) {
 	};
 	$scope.archer = {
 		'name': 'Archer',
+		'position': {
+			'x':1,
+			'y':2,
+			'z':0
+		},
+		'image': {
+			'left':'image/archer/left.png',
+			'right':'image/archer/right.png',
+			'up':'image/archer/up.png',
+			'down':'image/archer/down.png'
+		},
 		'actions': {
 			'name': 'Actions',
 			'id': 'actionGroup',

@@ -7,7 +7,7 @@
     <script type="text/javascript" src="angular.js"></script>
     <script type="text/javascript" src="rpg.js"></script>
   </head>
-  <body ng-controller="rpgCtrl">
+  <body ng-controller="rpgCtrl" style="position:relative; height:100%; width:100%">
     <h3>Unnamed RPG</h3>
     <div class="actionGroupWrapper">
       <div class="banner">
@@ -20,7 +20,17 @@
         <span ng-attr-title="{{action.description}}">{{action.name}}</span>
       </div>
     </div>
-    
+    <div>
+      <img ng-repeat="character in characters"
+        ng-src="{{character.image.right}}"
+        ng-attr-style="
+          position: absolute;
+          left:{{character.position.x * 64}}px; 
+          top:{{character.position.y * 64}}px; 
+          width:64px; 
+          height:64px">
+      </img>
+    </div>
     <div ng-repeat="character in characters">
       <div class="banner">{{character.name}}</div>
       <div ng-repeat="action in character.actionQueue track by $index"> - {{action.name}}</div>
