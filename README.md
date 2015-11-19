@@ -1,11 +1,12 @@
 <h1>TODO</h1>
-Action momentum
-Action order display
-Plot
-Dialog
-Grid-based location data
-Automatic move to attack
-AI
-Scene generator
-Map images
-Character images
+
+<li>Action momentum</li>
+<li>Action order display</li>
+<li>Plot</li>
+<li>Dialog</li>
+<li>Grid-based location data</li>
+<li>Automatic move to attack</li>
+<li>AI</li>
+<li>Scene generator</li>
+<li>Map images</li>
+<li>Character images</li>
