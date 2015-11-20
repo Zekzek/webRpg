@@ -89,7 +89,8 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 				}
 			]
 		},
-		'durationQueued': 0
+		'durationQueued': 0,
+		'durationWaited': 0
 	};
 	$scope.archer = {
 		'name': 'Archer',
@@ -177,7 +178,8 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 				}
 			]
 		},
-		'durationQueued': 0
+		'durationQueued': 0,
+		'durationWaited': 0
 	};
 	$scope.actionQueue = [];
 	
@@ -265,14 +267,20 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		var indexUsed = [];
 		var durationUsed = [];
 		
+		for (var i in $scope.characters) {
+			if ($scope.characters[i].actionQueue[0]) {
+				durationUsed[i] = $scope.characters[i].actionQueue[0].duration - $scope.characters[i].durationWaited;
+			}
+			else {
+				durationUsed[i] = -$scope.characters[i].durationWaited;
+			}
+		}
 		while (true) {
 			var nextAction = null;
 			var characterIndex = -1;
 			var lowestTime = Number.MAX_VALUE;
 			for (var i in $scope.characters) {
-				console.log($scope.characters[i].name, ":", (durationUsed[i]||0), "<", $scope.characters[i].durationQueued, "?");	
-				if ((durationUsed[i]||0) < lowestTime && (durationUsed[i]||0) < $scope.characters[i].durationQueued) {
-					console.log("yes");
+				if ((durationUsed[i]||0) < lowestTime && (indexUsed[i]||0) < $scope.characters[i].actionQueue.length) {
 					characterIndex = i;
 					nextAction = $scope.characters[i].actionQueue[(indexUsed[i]||0)];
 					lowestTime = (durationUsed[i]||0);
@@ -295,6 +303,15 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		var character = $scope.getCharacter(action.characterId);
 		character.actionQueue.shift();
 		character.durationQueued -= action.duration;
+		var timePassed = action.duration - character.durationWaited;
+		character.durationWaited = 0;
+		
+		//add to duration waited for all characters that didn't get to act.
+		for (var i in $scope.characters) {
+			if ($scope.characters[i].id != action.characterId) {
+				$scope.characters[i].durationWaited += timePassed;
+			}
+		}
 		$scope.updateActionQueue();
 	}
 	

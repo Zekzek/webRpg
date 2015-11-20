@@ -21,7 +21,7 @@
       </img>
     </div>
     <div ng-repeat="character in characters">
-      <div class="banner">{{character.name}}</div>
+      <div class="banner">{{character.name}} ({{character.durationWaited}})</div>
       <div ng-repeat="action in character.actionQueue track by $index"> - {{action.name}}</div>
       <br />
     </div>
