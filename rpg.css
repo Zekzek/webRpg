@@ -1,10 +1,25 @@
-.actionGroupWrapper, .actionWrapper {
-	margin-left: 20px;
+
+/* Action Selection */
+.actionSelectionWrapper {
+	position: fixed;
+	left: 2px;
+	bottom: 2px;
+	width: 175px;
 	border: solid black 1px;
 }
-
-.actionGroupWrapper div.banner {
+.actionSelectionWrapper div.banner {
 	font-weight: bold;
 	font-size: 120%;
 	background-color: #999;
+}
+
+/* Action Queue */
+.actionQueueWrapper {
+	position: fixed;
+	right: 2px;
+	top: 2px;
+	bottom: 2px;
+	width: 175px;
+	border: solid black 1px;
+
 }

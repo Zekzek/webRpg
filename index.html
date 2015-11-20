@@ -7,19 +7,8 @@
     <script type="text/javascript" src="angular.js"></script>
     <script type="text/javascript" src="rpg.js"></script>
   </head>
-  <body ng-controller="rpgCtrl" style="position:relative; height:100%; width:100%">
+  <body ng-controller="rpgCtrl" style="position:relative">
     <h3>Unnamed RPG</h3>
-    <div class="actionGroupWrapper">
-      <div class="banner">
-        <span>{{getActiveCharacter().name}} </span>
-        <span ng-if="getActiveCharacter().actionDisplayIdTree.length > 1" ng-click="actionMenu_back()">-</span>
-        {{getActiveCharacter().actionDisplay.name}}
-      </div>
-      <div ng-repeat="action in getActiveCharacter().actionDisplay.list" ng-click="actionMenu_select(action)">
-        <span ng-if="action.list">+</span>
-        <span ng-attr-title="{{action.description}}">{{action.name}}</span>
-      </div>
-    </div>
     <div>
       <img ng-repeat="character in characters"
         ng-src="{{character.image.right}}"
@@ -36,5 +25,27 @@
       <div ng-repeat="action in character.actionQueue track by $index"> - {{action.name}}</div>
       <br />
     </div>
+    
+    <div class="actionSelectionWrapper">
+      <div class="banner">
+        <span>{{getActiveCharacter().name}} </span>
+        <span ng-if="getActiveCharacter().actionDisplayIdTree.length > 1" ng-click="actionMenu_back()">-</span>
+        {{getActiveCharacter().actionDisplay.name}}
+      </div>
+      <div ng-repeat="action in getActiveCharacter().actionDisplay.list" ng-click="actionMenu_select(action)">
+        <span ng-if="action.list">+</span>
+        <span ng-attr-title="{{action.description}}">{{action.name}}</span>
+      </div>
+    </div>
+    
+    <div class="actionQueueWrapper">
+      <button ng-click="activateAction()">Trigger Action</button>
+      <div ng-repeat="action in actionQueue track by $index">
+        <img ng-src="{{action.icon}}"
+          style="width:16px; height:16px"></img>
+        {{action.name}}
+      </div>
+    </div>
+    
   </body>
 </html>

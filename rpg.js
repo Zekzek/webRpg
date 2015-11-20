@@ -5,6 +5,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 	$scope.activeCharacterIndex = 0;
 	$scope.warrior = {
 		'name': 'Warrior',
+		'id': 'warrior',
 		'position': {
 			'x':1,
 			'y':1,
@@ -92,6 +93,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 	};
 	$scope.archer = {
 		'name': 'Archer',
+		'id': 'archer',
 		'position': {
 			'x':1,
 			'y':2,
@@ -177,6 +179,16 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		},
 		'durationQueued': 0
 	};
+	$scope.actionQueue = [];
+	
+	$scope.getCharacter = function(id) {
+		for (var i in $scope.characters) {
+			if ($scope.characters[i].id == id) {
+				return $scope.characters[i];
+			}
+		}
+		return null;
+	};
 	
 	$scope.addCharacter = function(aChar) {
 		aChar.actionDisplayIdTree = [aChar.actions.id];
@@ -205,8 +217,9 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		return null;
 	};
 
-	$scope.updateactionDisplay = function() {
+	$scope.updateActionDisplay = function() {
 		$scope.getActiveCharacter().actionDisplay = $scope.getAction($scope.getActiveCharacter().actionDisplayIdTree[0]);
+		$scope.updateActionQueue();
 	};
 	
 	$scope.actionMenu_select = function(action) {
@@ -224,18 +237,19 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 			}
 			$scope.nextCharacter();
 		}
-		$scope.updateactionDisplay();
+		$scope.updateActionDisplay();
 	};
 	
 	$scope.queueAction = function(character, action) {
 		action.durationLeft = action.duration;
+		action.characterId = character.id;
 		character.actionQueue.push(action);
 		character.durationQueued += action.duration;
 	};
 	
 	$scope.actionMenu_back = function() {
 		$scope.getActiveCharacter().actionDisplayIdTree.shift();
-		$scope.updateactionDisplay();
+		$scope.updateActionDisplay();
 	};
 	
 	$scope.nextCharacter= function() {
@@ -246,8 +260,46 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		}
 	};
 	
+	$scope.updateActionQueue = function() {
+		$scope.actionQueue.length = 0;
+		var indexUsed = [];
+		var durationUsed = [];
+		
+		while (true) {
+			var nextAction = null;
+			var characterIndex = -1;
+			var lowestTime = Number.MAX_VALUE;
+			for (var i in $scope.characters) {
+				console.log($scope.characters[i].name, ":", (durationUsed[i]||0), "<", $scope.characters[i].durationQueued, "?");	
+				if ((durationUsed[i]||0) < lowestTime && (durationUsed[i]||0) < $scope.characters[i].durationQueued) {
+					console.log("yes");
+					characterIndex = i;
+					nextAction = $scope.characters[i].actionQueue[(indexUsed[i]||0)];
+					lowestTime = (durationUsed[i]||0);
+				}
+			}
+			if (nextAction != null) {
+				indexUsed[characterIndex] = (indexUsed[characterIndex]||0) + 1;
+				durationUsed[characterIndex] = (durationUsed[characterIndex]||0) + nextAction.duration;
+				nextAction.icon = $scope.characters[characterIndex].image.left;
+				$scope.actionQueue.push(nextAction);
+			}
+			else {
+				break;
+			}
+		}
+	};
+	
+	$scope.activateAction = function() {
+		var action = $scope.actionQueue[0];
+		var character = $scope.getCharacter(action.characterId);
+		character.actionQueue.shift();
+		character.durationQueued -= action.duration;
+		$scope.updateActionQueue();
+	}
+	
 	//On initial load
 	$scope.addCharacter($scope.warrior);
 	$scope.addCharacter($scope.archer);
-	$scope.updateactionDisplay();
+	$scope.updateActionDisplay();
 });
