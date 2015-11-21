@@ -1,21 +1,171 @@
 var rpgApp = angular.module('rpgApp', []);
 
 rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
+	$scope.SpriteAnimator = SpriteAnimator;
 	$scope.characters = [];
 	$scope.activeCharacterIndex = 0;
-	$scope.warrior = {
+	$scope.boy = {
+		'name':'boy',
+		'id': 'boy',
+		'position': {
+			'x':1,
+			'y':3,
+			'z':0
+		},
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/boy.png', 9, 7, 6, 6, 6),
+		'spriteIndex': {
+			'x':0,
+			'y':0
+		},
+		'actions': {
+			'name': 'Actions',
+			'id': 'actionGroup',
+			'list': [
+				{
+					'name': 'Throw Axe',
+					'id': 'ability_throwingAxe',
+					'duration': 30,
+					'description': 'Hurl a throwing axe',
+				}
+			]			
+		},
+		'durationQueued': 0,
+		'durationWaited': 0
+	};
+	$scope.girl = {
+		'name':'girl',
+		'id': 'girl',
+		'position': {
+			'x':2,
+			'y':3,
+			'z':0
+		},
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/girl.png', 9, 7, 6, 6, 6),
+		'spriteIndex': {
+			'x':0,
+			'y':0
+		},
+		'actions': {
+			'name': 'Actions',
+			'id': 'actionGroup',
+			'list': [
+				{
+					'name': 'Throw Axe',
+					'id': 'ability_throwingAxe',
+					'duration': 30,
+					'description': 'Hurl a throwing axe',
+				}
+			]			
+		},
+		'durationQueued': 0,
+		'durationWaited': 0
+	};
+	$scope.guard = {
+		'name':'Guard',
+		'id': 'guard',
+		'position': {
+			'x':2,
+			'y':2,
+			'z':0
+		},
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/guard.png', 9, 7, 6, 13, 6),
+		'spriteIndex': {
+			'x':0,
+			'y':0
+		},
+		'actions': {
+			'name': 'Actions',
+			'id': 'actionGroup',
+			'list': [
+				{
+					'name': 'Throw Axe',
+					'id': 'ability_throwingAxe',
+					'duration': 30,
+					'description': 'Hurl a throwing axe',
+				}
+			]			
+		},
+		'durationQueued': 0,
+		'durationWaited': 0
+	};
+	
+	$scope.sorceress = {
+		'name':'Sorceress',
+		'id': 'sorceress',
+		'position': {
+			'x':2,
+			'y':4,
+			'z':0
+		},
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/sorceress.png', 9, 7, 6, 13, 6),
+		'spriteIndex': {
+			'x':0,
+			'y':0
+		},
+		'actions': {
+			'name': 'Actions',
+			'id': 'actionGroup',
+			'list': [
+				{
+					'name': 'Throw Axe',
+					'id': 'ability_throwingAxe',
+					'duration': 30,
+					'description': 'Hurl a throwing axe',
+				}
+			]			
+		},
+		'durationQueued': 0,
+		'durationWaited': 0
+	};
+	
+	$scope.defender = {
+		'name':'Defender',
+		'id': 'defender',
+		'position': {
+			'x':3,
+			'y':2,
+			'z':0
+		},
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/defender.png', 9, 7, 6, 13, 6),
+		'spriteIndex': {
+			'x':0,
+			'y':0
+		},
+		'actions': {
+			'name': 'Actions',
+			'id': 'actionGroup',
+			'list': [
+				{
+					'name': 'Throw Axe',
+					'id': 'ability_throwingAxe',
+					'duration': 30,
+					'description': 'Hurl a throwing axe',
+				}
+			]			
+		},
+		'durationQueued': 0,
+		'durationWaited': 0
+	};
+	
+	$scope.berserker = {
 		'name': 'Warrior',
 		'id': 'warrior',
 		'position': {
 			'x':1,
-			'y':1,
+			'y':4,
 			'z':0
 		},
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/berserker.png', 9, 7, 6, 13, 6),
 		'image': {
+			'spritesheet':'image/spritesheet/defender.png',
 			'left':'image/warrior/left.png',
 			'right':'image/warrior/right.png',
 			'up':'image/warrior/up.png',
 			'down':'image/warrior/down.png'
+		},
+		'spriteIndex': {
+			'x':0,
+			'y':0
 		},
 		'actions': {
 			'name': 'Actions',
@@ -100,11 +250,17 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 			'y':2,
 			'z':0
 		},
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/archer.png', 9, 7, 6, 13, 6),
 		'image': {
+			'spritesheet':'image/spritesheet/archer.png',
 			'left':'image/archer/left.png',
 			'right':'image/archer/right.png',
 			'up':'image/archer/up.png',
 			'down':'image/archer/down.png'
+		},
+		'spriteIndex': {
+			'x':0,
+			'y':0
 		},
 		'actions': {
 			'name': 'Actions',
@@ -315,8 +471,23 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		$scope.updateActionQueue();
 	}
 	
+	$scope.forceAnimate = function(character, row, time) {
+		character.spriteAnimator.animate(row, time, $scope);
+	};
+	
+	$scope.animateAll = function(row, time) {
+		for (var i in $scope.characters) {
+			$scope.characters[i].spriteAnimator.animate(row, time, $scope);
+		}
+	};
+	
 	//On initial load
-	$scope.addCharacter($scope.warrior);
+	$scope.addCharacter($scope.berserker);
 	$scope.addCharacter($scope.archer);
+	$scope.addCharacter($scope.boy);
+	$scope.addCharacter($scope.girl);
+	$scope.addCharacter($scope.guard);
+	$scope.addCharacter($scope.sorceress);
+	$scope.addCharacter($scope.defender);
 	$scope.updateActionDisplay();
 });

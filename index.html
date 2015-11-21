@@ -6,20 +6,45 @@
     <link rel="stylesheet" href="rpg.css">
     <script type="text/javascript" src="angular.js"></script>
     <script type="text/javascript" src="rpg.js"></script>
+    <script type="text/javascript" src="SpriteAnimator.js"></script>
   </head>
   <body ng-controller="rpgCtrl" style="position:relative">
     <h3>Unnamed RPG</h3>
     <div>
+      <!-- ng-src="{{character.image.right}}" -->
       <img ng-repeat="character in characters"
-        ng-src="{{character.image.right}}"
         ng-attr-style="
+          width: 64px;
+          height: 64px;
+          background: url({{character.spriteAnimator.image}}) {{character.spriteAnimator.x}}px {{character.spriteAnimator.y}}px;
           position: absolute;
           left:{{character.position.x * 64}}px; 
-          top:{{character.position.y * 64}}px; 
-          width:32px; 
-          height:32px">
+          top:{{character.position.y * 64}}px;">
       </img>
     </div>
+    
+    <button ng-click="animateAll(SpriteAnimator.WALK_NORTH, 1000)">WALK_NORTH</button>
+    <button ng-click="animateAll(SpriteAnimator.WALK_WEST, 1000)">WALK_WEST</button>
+    <button ng-click="animateAll(SpriteAnimator.WALK_SOUTH, 1000)">WALK_SOUTH</button>
+    <button ng-click="animateAll(SpriteAnimator.WALK_EAST, 1000)">WALK_EAST</button>
+    
+    <button ng-click="animateAll(SpriteAnimator.CAST_NORTH, 1000)">CAST_NORTH</button>
+    <button ng-click="animateAll(SpriteAnimator.CAST_WEST, 1000)">CAST_WEST</button>
+    <button ng-click="animateAll(SpriteAnimator.CAST_SOUTH, 1000)">CAST_SOUTH</button>
+    <button ng-click="animateAll(SpriteAnimator.CAST_EAST, 1000)">CAST_EAST</button>
+    
+    <button ng-click="animateAll(SpriteAnimator.MELEE_NORTH, 1000)">MELEE_NORTH</button>
+    <button ng-click="animateAll(SpriteAnimator.MELEE_WEST, 1000)">MELEE_WEST</button>
+    <button ng-click="animateAll(SpriteAnimator.MELEE_SOUTH, 1000)">MELEE_SOUTH</button>
+    <button ng-click="animateAll(SpriteAnimator.MELEE_EAST, 1000)">MELEE_EAST</button>
+    
+    <button ng-click="animateAll(SpriteAnimator.RANGE_NORTH, 1000)">RANGE_NORTH</button>
+    <button ng-click="animateAll(SpriteAnimator.RANGE_WEST, 1000)">RANGE_WEST</button>
+    <button ng-click="animateAll(SpriteAnimator.RANGE_SOUTH, 1000)">RANGE_SOUTH</button>
+    <button ng-click="animateAll(SpriteAnimator.RANGE_EAST, 1000)">RANGE_EAST</button>
+    
+    <button ng-click="animateAll(SpriteAnimator.DEATH, 1000)">DEATH</button>
+    
     <div ng-repeat="character in characters">
       <div class="banner">{{character.name}} ({{character.durationWaited}})</div>
       <div ng-repeat="action in character.actionQueue track by $index"> - {{action.name}}</div>
