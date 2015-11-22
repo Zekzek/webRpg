@@ -2,31 +2,53 @@ function SpriteAnimator(image, numWalk, numCast, numMelee, numRange, numDeath) {
 	var x = 0;
 	var y = 0;
 	
-	function animate(row, overTime, scope) {
+	function animate(row, overTime, scope, delay) {
 		_this.y = -64 * row;
-		_this.x = 0;
-		var sprites;
+		var numSprites;
+		var startAt = 0
+		var inc = 1;
+		var endAt;
+		
+		if (row > 199) { //greater than 199 is code to go forwards, then backwards
+			animate(row - 100, overTime / 2, scope, overTime / 2);
+			row -= 200;
+			overTime /= 2;
+		} else if (row > 99) { //greater than 99 is code to animate backwards 
+			var backwards = true;
+			row -= 100;
+		}
+		
 		if (row <= SpriteAnimator.WALK_EAST) { 
-			numSprites = numWalk;
+			endAt = numSprites = numWalk;
 		} else if (row <= SpriteAnimator.CAST_EAST) { 
-			numSprites = numCast;
+			endAt = numSprites = numCast;
 		} else if (row <= SpriteAnimator.MELEE_EAST) { 
-			numSprites = numMelee;
+			endAt = numSprites = numMelee;
 		} else if (row <= SpriteAnimator.RANGE_EAST) { 
-			numSprites = numRange;
+			endAt = numSprites = numRange;
 		} else if (row <= SpriteAnimator.DEATH) { 
-			numSprites = numDeath;
+			endAt = numSprites = numDeath;
 		} else {
 			numSprites = 0;
 		}
+		
+		if (backwards) {
+			startAt = numSprites - 1;
+			endAt = -1
+			inc = -1;
+		}
+		
+		_this.x = startAt * -64;
+		_this.y = row * -64;
 			
-		for (var i = 0; i < numSprites; i++) {
-			(function(index) {
+		var counter = 0;
+		for (var i = startAt; i != endAt; i += inc) {
+			(function(index, count) {
 				setTimeout(function() {
 					_this.x = index * -64;
 					scope.$apply(); 
-				}, overTime * (index + 1) / numSprites);
-			})(i);
+				}, (delay||0) + overTime * (count + 1) / numSprites);
+			})(i, counter++);
 		}
 	};
 	
@@ -40,6 +62,7 @@ function SpriteAnimator(image, numWalk, numCast, numMelee, numRange, numDeath) {
 	return _this;
 }
 
+// Sprite sequences
 SpriteAnimator.WALK_NORTH = 0;
 SpriteAnimator.WALK_WEST = 1;
 SpriteAnimator.WALK_SOUTH = 2;
@@ -57,3 +80,7 @@ SpriteAnimator.RANGE_WEST = 13;
 SpriteAnimator.RANGE_SOUTH = 14;
 SpriteAnimator.RANGE_EAST = 15;
 SpriteAnimator.DEATH = 16;
+
+// Modifiers
+SpriteAnimator.REVERSE = 100;
+SpriteAnimator.FORWARD_REVERSE = 200;

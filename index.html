@@ -9,7 +9,6 @@
     <script type="text/javascript" src="SpriteAnimator.js"></script>
   </head>
   <body ng-controller="rpgCtrl" style="position:relative">
-    <h3>Unnamed RPG</h3>
     <div>
       <!-- ng-src="{{character.image.right}}" -->
       <img ng-repeat="character in characters"
@@ -23,27 +22,76 @@
       </img>
     </div>
     
-    <button ng-click="animateAll(SpriteAnimator.WALK_NORTH, 1000)">WALK_NORTH</button>
-    <button ng-click="animateAll(SpriteAnimator.WALK_WEST, 1000)">WALK_WEST</button>
-    <button ng-click="animateAll(SpriteAnimator.WALK_SOUTH, 1000)">WALK_SOUTH</button>
-    <button ng-click="animateAll(SpriteAnimator.WALK_EAST, 1000)">WALK_EAST</button>
-    
-    <button ng-click="animateAll(SpriteAnimator.CAST_NORTH, 1000)">CAST_NORTH</button>
-    <button ng-click="animateAll(SpriteAnimator.CAST_WEST, 1000)">CAST_WEST</button>
-    <button ng-click="animateAll(SpriteAnimator.CAST_SOUTH, 1000)">CAST_SOUTH</button>
-    <button ng-click="animateAll(SpriteAnimator.CAST_EAST, 1000)">CAST_EAST</button>
-    
-    <button ng-click="animateAll(SpriteAnimator.MELEE_NORTH, 1000)">MELEE_NORTH</button>
-    <button ng-click="animateAll(SpriteAnimator.MELEE_WEST, 1000)">MELEE_WEST</button>
-    <button ng-click="animateAll(SpriteAnimator.MELEE_SOUTH, 1000)">MELEE_SOUTH</button>
-    <button ng-click="animateAll(SpriteAnimator.MELEE_EAST, 1000)">MELEE_EAST</button>
-    
-    <button ng-click="animateAll(SpriteAnimator.RANGE_NORTH, 1000)">RANGE_NORTH</button>
-    <button ng-click="animateAll(SpriteAnimator.RANGE_WEST, 1000)">RANGE_WEST</button>
-    <button ng-click="animateAll(SpriteAnimator.RANGE_SOUTH, 1000)">RANGE_SOUTH</button>
-    <button ng-click="animateAll(SpriteAnimator.RANGE_EAST, 1000)">RANGE_EAST</button>
-    
+    Walk
+    <button ng-click="animateAll(SpriteAnimator.WALK_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.WALK_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.WALK_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.WALK_EAST, 1000)">E</button>
+    Reverse
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.WALK_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.WALK_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.WALK_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.WALK_EAST, 1000)">E</button>
+    Forward+Reverse
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.WALK_NORTH, 2000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.WALK_WEST, 2000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.WALK_SOUTH, 2000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.WALK_EAST, 2000)">E</button>
+    <br />
+    Cast
+    <button ng-click="animateAll(SpriteAnimator.CAST_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.CAST_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.CAST_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.CAST_EAST, 1000)">E</button>
+    Reverse
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.CAST_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.CAST_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.CAST_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.CAST_EAST, 1000)">E</button>
+    Forward+Reverse
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.CAST_NORTH, 2000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.CAST_WEST, 2000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.CAST_SOUTH, 2000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.CAST_EAST, 2000)">E</button>
+    <br />
+    Melee
+    <button ng-click="animateAll(SpriteAnimator.MELEE_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.MELEE_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.MELEE_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.MELEE_EAST, 1000)">E</button>
+    Reverse
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.MELEE_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.MELEE_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.MELEE_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.MELEE_EAST, 1000)">E</button>
+    Forward+Reverse
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.MELEE_NORTH, 2000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.MELEE_WEST, 2000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.MELEE_SOUTH, 2000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.MELEE_EAST, 2000)">E</button>
+    <br />
+    Range
+    <button ng-click="animateAll(SpriteAnimator.RANGE_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.RANGE_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.RANGE_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.RANGE_EAST, 1000)">E</button>
+    Reverse
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.RANGE_NORTH, 1000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.RANGE_WEST, 1000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.RANGE_SOUTH, 1000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.RANGE_EAST, 1000)">E</button>
+    Forward+Reverse
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.RANGE_NORTH, 2000)">N</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.RANGE_WEST, 2000)">W</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.RANGE_SOUTH, 2000)">S</button>
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.RANGE_EAST, 2000)">E</button>
+    <br />
+    Death
     <button ng-click="animateAll(SpriteAnimator.DEATH, 1000)">DEATH</button>
+    Reverse
+    <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.DEATH, 1000)">RAISE</button>
+    Forward+Reverse
+    <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.DEATH, 2000)">EXCERCISE</button>
     
     <div ng-repeat="character in characters">
       <div class="banner">{{character.name}} ({{character.durationWaited}})</div>

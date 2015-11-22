@@ -88,7 +88,6 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		'durationQueued': 0,
 		'durationWaited': 0
 	};
-	
 	$scope.sorceress = {
 		'name':'Sorceress',
 		'id': 'sorceress',
@@ -116,8 +115,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		},
 		'durationQueued': 0,
 		'durationWaited': 0
-	};
-	
+	};	
 	$scope.defender = {
 		'name':'Defender',
 		'id': 'defender',
@@ -126,7 +124,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 			'y':2,
 			'z':0
 		},
-		'spriteAnimator': new SpriteAnimator('image/spritesheet/defender.png', 9, 7, 6, 13, 6),
+		'spriteAnimator': new SpriteAnimator('image/spritesheet/defender.png', 9, 6, 6, 10, 6),
 		'spriteIndex': {
 			'x':0,
 			'y':0
@@ -146,7 +144,6 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		'durationQueued': 0,
 		'durationWaited': 0
 	};
-	
 	$scope.berserker = {
 		'name': 'Warrior',
 		'id': 'warrior',
@@ -482,12 +479,12 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 	};
 	
 	//On initial load
-	$scope.addCharacter($scope.berserker);
-	$scope.addCharacter($scope.archer);
-	$scope.addCharacter($scope.boy);
-	$scope.addCharacter($scope.girl);
-	$scope.addCharacter($scope.guard);
-	$scope.addCharacter($scope.sorceress);
+	//$scope.addCharacter($scope.berserker);
+	//$scope.addCharacter($scope.archer);
+	//$scope.addCharacter($scope.boy);
+	//$scope.addCharacter($scope.girl);
+	//$scope.addCharacter($scope.guard);
+	//$scope.addCharacter($scope.sorceress);
 	$scope.addCharacter($scope.defender);
 	$scope.updateActionDisplay();
 });
