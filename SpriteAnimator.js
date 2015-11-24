@@ -62,6 +62,12 @@ function SpriteAnimator(image, numWalk, numCast, numMelee, numRange, numDeath) {
 	return _this;
 }
 
+/*
+	DEATH
+	WALK_COMPASS
+	ATTACKS_COMPASS (%4 determines direction, /4 determines row, allows each sprite to have varying complexity)
+*/
+
 // Sprite sequences
 SpriteAnimator.WALK_NORTH = 0;
 SpriteAnimator.WALK_WEST = 1;
