@@ -1,332 +1,307 @@
-CHARACTER_TYPE = {};
+RPG_DATABASES = {}
+RPG_DATABASES.CHARACTER = {};
+RPG_DATABASES.ACTION = {};
+RPG_DATABASES.CHARACTER_INSTANCE = {};
 
-CHARACTER_TYPE.boy = {
-	'name':'boy',
-	'id': 'boy',
+RPG_DATABASES.CHARACTER.boy = {
+	'id':'boy',
+	'name':'Boy',
+	'spriteCounts':[9,7,6,6,6],
+	'spritesheet':'image/spritesheet/boy.png',
+	'actions': {
+		'name': 'Actions',
+		'id': 'actionGroup',
+		'list': [
+			'throwingAxe'
+		]
+	}
+};
+RPG_DATABASES.CHARACTER.girl = {
+	'id':'girl',
+	'name':'Girl',
+	'spriteCounts':[9,7,6,6,6],
+	'spritesheet':'image/spritesheet/girl.png',
+	'actions': {
+		'name': 'Actions',
+		'id': 'actionGroup',
+		'list': [
+			'throwingAxe'
+		]
+	}
+};
+RPG_DATABASES.CHARACTER.guard = {
+	'id':'guard',
+	'name':'Guard',
+	'spriteCounts':[9,7,6,13,6],
+	'spritesheet':'image/spritesheet/guard.png',
+	'actions': {
+		'name': 'Actions',
+		'id': 'actionGroup',
+		'list': [
+			'throwingAxe'
+		]
+	}
+};
+RPG_DATABASES.CHARACTER.sorceress = {
+	'id':'sorceress',
+	'name':'Sorceress',
+	'spriteCounts':[9,7,6,13,6],
+	'spritesheet':'image/spritesheet/sorceress.png',
+	'actions': {
+		'name': 'Actions',
+		'id': 'actionGroup',
+		'list': [
+			'throwingAxe'
+		]
+	}
+};
+RPG_DATABASES.CHARACTER.defender = {
+	'id':'defender',
+	'name':'Defender',
+	'spriteCounts':[9,7,6,13,6],
+	'spritesheet':'image/spritesheet/defender.png',
+	'actions': {
+		'name': 'Actions',
+		'id': 'actionGroup',
+		'list': [
+			'throwingAxe'
+		]
+	}
+};
+RPG_DATABASES.CHARACTER.berserker = {
+	'id':'berserker',
+	'name':'Berserker',
+	'spriteCounts':[9,7,6,13,6],
+	'spritesheet':'image/spritesheet/berserker.png',
+	'actions': [
+		'rush',
+		'threeHitCombo',
+		'challenge',
+		'sweep',
+		'throwingAxe'
+		'quickAttack',
+		'powerAttack',
+		'knockdown'
+		]
+	}
+};
+RPG_DATABASES.CHARACTER.archer = {
+	'id':'archer',
+	'name':'Archer',
+	'spriteCounts':[9,7,6,13,6],
+	'spritesheet':'image/spritesheet/archer.png',
+	'actions': [
+		'keepYourDistance',
+		'threeHitCombo',
+		'snare',
+		'barrage',
+		'ignite',
+		'quickAttack',
+		'powerAttack',
+		'pin'
+		]
+	}
+};
+	
+/*	Equiped weapons effect all attacks.
+	If undefined, weapons are assumed to have:
+		'duration':1.0,
+		'damage':1.0,
+		'range':0
+	Could alter chances for certain status effects (ie. knockdown)*/
+RPG_DATABASES.WEAPON.axe = {
+	'damage': 1.2
+}
+RPG_DATABASES.WEAPON.greatAxe = {
+	'duration': 1.4,
+	'damage': 1.6,
+	'range': 1
+}
+RPG_DATABASES.WEAPON.bow = {
+	'range': 6
+}
+RPG_DATABASES.WEAPON.greatBow = {
+	'duration': 1.5,
+	'damage': 1.5,
+	'range': 8
+}
+RPG_DATABASES.WEAPON.longBow = {
+	'damage': 0.9,
+	'range': 12
+}
+
+//range
+//animationType
+//attackMomentum
+//moveMomentum
+//status (id and chance/power)
+//Conventions: Shot=ranged only, Strike=melee only, Attack=ranged/melee
+RPG_DATABASES.ACTION.keepYourDistance = {
+	'id': 'keepYourDistance',
+	'name': 'Keep Your Distance',
+	'description': 'Do lots of damage at range while preventing your target from closing in',
+	'categoryTree' : ['combo'],
+	'combo' : ['pin', 'powerAttack']
+};
+RPG_DATABASES.ACTION.snare = {
+	'id': 'snare',
+	'name': 'Snare',
+	'description': 'Create an immobile trap (limit: 1 active)',
+	'categoryTree' : ['ability'],
+	'duration' : 80
+};
+RPG_DATABASES.ACTION.barrage = {
+	'id': 'barrage',
+	'name': 'Barrage',
+	'description': 'Release a lot of inaccurate arrows - "Quantity over quality"',
+	'categoryTree' : ['ability'],
+	'duration' : 40
+};
+RPG_DATABASES.ACTION.ignite = {
+	'id': 'ignite',
+	'name': 'Ignite',
+	'description': 'A flaming attack designed to light the target ablaze'
+	'categoryTree' : ['ability'],
+	'duration' : 40
+};
+RPG_DATABASES.ACTION.pin = {
+	'id': 'pin',
+	'name': 'Pin',
+	'description': 'Aim for the legs, designed to lock the enemy in place'
+	'categoryTree' : ['attack'],
+	'duration' : 40
+};
+RPG_DATABASES.ACTION.rush = {
+	'id': 'rush',
+	'name': 'Rush',
+	'description': 'Knockdown, followed by a powerful strike'
+	'categoryTree' : ['combo'],
+	'combo': ['knockdown', 'powerAttack']
+};
+RPG_DATABASES.ACTION.threeHitCombo = {
+	'id': 'threeHitCombo',
+	'name': 'Three-Hit Combo',
+	'description': '3-hit combo building to a powerful attack'
+	'categoryTree' : ['combo'],
+	'combo': ['quickAttack', 'quickAttack', 'powerAttack']
+};
+RPG_DATABASES.ACTION.challenge = {
+	'id': 'challenge',
+	'name': 'Challenge',
+	'description': 'Encourage an enemy to fight only you (limit: 1 active)'
+	'categoryTree' : ['ability'],
+	'duration': 10
+};
+RPG_DATABASES.ACTION.sweep = {
+	'id': 'sweep',
+	'name': 'Sweep',
+	'description': 'A spinning attack designed to knockdown everyone nearby'
+	'categoryTree' : ['ability'],
+	'duration': 40
+};
+RPG_DATABASES.ACTION.throwAxe = {
+	'id': 'throwAxe',
+	'name': 'Throw Axe',
+	'description': 'Hurl a throwing axe'
+	'categoryTree' : ['ability'],
+	'duration': 30
+};
+RPG_DATABASES.ACTION.quickAttack = {
+	'id': 'quickAttack',
+	'name': 'Quick Attack',
+	'description': 'A fast, weaker attack'
+	'categoryTree' : ['attack'],
+	'duration': 20
+};
+RPG_DATABASES.ACTION.powerAttack = {
+	'id': 'powerAttack',
+	'name': 'Power Attack',
+	'description': 'Slower, more powerful attack'
+	'categoryTree' : ['attack'],
+	'duration': 40
+};
+RPG_DATABASES.ACTION.knockdown = {
+	'id': 'knockdown',
+	'name': 'Knockdown',
+	'description': 'Strong shove designed to knock the enemy prone'
+	'categoryTree' : ['attack'],
+	'duration': 20
+};
+
+/*
+	Instances can overwrite any fields from the base class (other than id).
+	If undefined, instances are assumed to have:
+		'spriteIndex':{
+			'x':0,
+			'y':0
+		},
+		'durationQueued': 0,
+		'durationWaited': 0
+*/
+RPG_DATABASES.CHARACTER_INSTANCE.boy1 = {
+	'id':'boy1',
+	'characterId':'boy',
 	'position': {
 		'x':1,
 		'y':3,
 		'z':0
-	},
-	'spriteAnimator': new SpriteAnimator('image/spritesheet/boy.png', 9, 7, 6, 6, 6),
-	'spriteIndex': {
-		'x':0,
-		'y':0
-	},
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			{
-				'name': 'Throw Axe',
-				'id': 'ability_throwingAxe',
-				'duration': 30,
-				'description': 'Hurl a throwing axe',
-			}
-		]			
-	},
-	'durationQueued': 0,
-	'durationWaited': 0
+	}
 };
-CHARACTER_TYPE.girl = {
-	'name':'girl',
-	'id': 'girl',
+RPG_DATABASES.CHARACTER_INSTANCE.girl1 = {
+	'id':'girl1',
+	'characterId':'girl',
+	'name':'Girl #1',
 	'position': {
 		'x':2,
 		'y':3,
 		'z':0
-	},
-	'spriteAnimator': new SpriteAnimator('image/spritesheet/girl.png', 9, 7, 6, 6, 6),
-	'spriteIndex': {
-		'x':0,
-		'y':0
-	},
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			{
-				'name': 'Throw Axe',
-				'id': 'ability_throwingAxe',
-				'duration': 30,
-				'description': 'Hurl a throwing axe',
-			}
-		]			
-	},
-	'durationQueued': 0,
-	'durationWaited': 0
+	}
 };
-CHARACTER_TYPE.guard = {
-	'name':'Guard',
-	'id': 'guard',
+RPG_DATABASES.CHARACTER_INSTANCE.guard1 = {
+	'id':'guard1',
+	'characterId':'guard',
+	'name':'Guard #1',
 	'position': {
 		'x':2,
 		'y':2,
 		'z':0
-	},
-	'spriteAnimator': new SpriteAnimator('image/spritesheet/guard.png', 9, 7, 6, 13, 6),
-	'spriteIndex': {
-		'x':0,
-		'y':0
-	},
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			{
-				'name': 'Throw Axe',
-				'id': 'ability_throwingAxe',
-				'duration': 30,
-				'description': 'Hurl a throwing axe',
-			}
-		]			
-	},
-	'durationQueued': 0,
-	'durationWaited': 0
+	}
 };
-CHARACTER_TYPE.sorceress = {
+RPG_DATABASES.CHARACTER_INSTANCE.sorceress1 = {
+	'id':'sorceress1',
+	'characterId':'sorceress',
 	'name':'Sorceress',
-	'id': 'sorceress',
 	'position': {
 		'x':2,
 		'y':4,
 		'z':0
-	},
-	'spriteAnimator': new SpriteAnimator('image/spritesheet/sorceress.png', 9, 7, 6, 13, 6),
-	'spriteIndex': {
-		'x':0,
-		'y':0
-	},
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			{
-				'name': 'Throw Axe',
-				'id': 'ability_throwingAxe',
-				'duration': 30,
-				'description': 'Hurl a throwing axe',
-			}
-		]			
-	},
-	'durationQueued': 0,
-	'durationWaited': 0
-};	
-CHARACTER_TYPE.defender = {
+	}
+};
+RPG_DATABASES.CHARACTER_INSTANCE.defender1 = {
+	'id':'defender1',
+	'characterId':'defender',
 	'name':'Defender',
-	'id': 'defender',
 	'position': {
 		'x':3,
 		'y':2,
 		'z':0
-	},
-	'spriteAnimator': new SpriteAnimator('image/spritesheet/defender.png', 9, 6, 6, 10, 6),
-	'spriteIndex': {
-		'x':0,
-		'y':0
-	},
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			{
-				'name': 'Throw Axe',
-				'id': 'ability_throwingAxe',
-				'duration': 30,
-				'description': 'Hurl a throwing axe',
-			}
-		]			
-	},
-	'durationQueued': 0,
-	'durationWaited': 0
+	}
 };
-CHARACTER_TYPE.berserker = {
-	'name': 'Warrior',
-	'id': 'warrior',
+RPG_DATABASES.CHARACTER_INSTANCE.berserker1 = {
+	'id':'berserker1',
+	'characterId':'berserker',
 	'position': {
 		'x':1,
 		'y':4,
 		'z':0
-	},
-	'spriteAnimator': new SpriteAnimator('image/spritesheet/berserker.png', 9, 7, 6, 13, 6),
-	'image': {
-		'spritesheet':'image/spritesheet/defender.png',
-		'left':'image/warrior/left.png',
-		'right':'image/warrior/right.png',
-		'up':'image/warrior/up.png',
-		'down':'image/warrior/down.png'
-	},
-	'spriteIndex': {
-		'x':0,
-		'y':0
-	},
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			{	'name': 'Combo',
-				'id': 'comboGroup',
-				'description': 'Combinations of basic attacks that utilize momentum bonuses',	
-				'list': [
-					{
-						'name': 'Rush',
-						'id': 'combo_rush',		
-						'description': 'Knockdown -> Power Strike',
-						'combo': ['attack_knockdown', 'attack_powerStrike']
-					},
-					{
-						'name': '3-hit',
-						'id': 'combo_3hit',
-						'description': 'Jab -> Jab -> Power Strike',
-						'combo': ['attack_jab', 'attack_jab', 'attack_powerStrike']
-					}
-				]
-			},
-			{	'name': 'Ability',
-				'id': 'abilityGroup',
-				'description': 'Special abilities',	
-				'list': [
-					{
-						'name': 'Challenge',
-						'id': 'ability_challenge',
-						'duration': 10,
-						'description': 'Encourage an enemy to fight only you (limit: 1 active)',
-					},
-					{
-						'name': 'Sweep',
-						'id': 'ability_sweep',
-						'duration': 40,
-						'description': 'Knockdown every nearby enemy',
-					},
-					{
-						'name': 'Throw Axe',
-						'id': 'ability_throwingAxe',
-						'duration': 30,
-						'description': 'Hurl a throwing axe',
-					}
-				]
-			},
-			{	'name': 'Attack',
-				'id': 'attackGroup',
-				'description': 'Basic attacks',	
-				'list': [
-					{
-						'name': 'Jab',
-						'id': 'attack_jab',
-						'duration': 20,
-						'description': 'Quick strike',
-					},
-					{
-						'name': 'Power Strike',
-						'id': 'attack_powerStrike',
-						'duration': 40,
-						'description': 'Slower, more powerful attack',
-					},
-					{
-						'name': 'Knockdown',
-						'id': 'attack_knockdown',
-						'duration': 20,
-						'description': 'Strong shove designed to knock the enemy prone',
-					}
-				]
-			}
-		]
-	},
-	'durationQueued': 0,
-	'durationWaited': 0
+	}
 };
-CHARACTER_TYPE.archer = {
-	'name': 'Archer',
-	'id': 'archer',
+RPG_DATABASES.CHARACTER_INSTANCE.archer1 = {
+	'id':'archer1',
+	'characterId':'archer',
 	'position': {
 		'x':1,
 		'y':2,
 		'z':0
-	},
-	'spriteAnimator': new SpriteAnimator('image/spritesheet/archer.png', 9, 7, 6, 13, 6),
-	'image': {
-		'spritesheet':'image/spritesheet/archer.png',
-		'left':'image/archer/left.png',
-		'right':'image/archer/right.png',
-		'up':'image/archer/up.png',
-		'down':'image/archer/down.png'
-	},
-	'spriteIndex': {
-		'x':0,
-		'y':0
-	},
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			{	'name': 'Combo',
-				'id': 'comboGroup',
-				'description': 'Combinations of basic attacks that utilize momentum bonuses',	
-				'list': [
-					{
-						'name': 'Keep your Distance',
-						'id': 'combo_keepYourDistance',		
-						'description': 'Pin -> Power Shot',
-						'combo': ['attack_pin', 'attack_powerShot']
-					},
-					{
-						'name': '3-hit',
-						'id': 'combo_3hit',
-						'description': 'Plunk -> Plunk -> Power Shot',
-						'combo': ['attack_plunk', 'attack_plunk', 'attack_powerShot']
-					}
-				]
-			},
-			{	'name': 'Ability',
-				'id': 'abilityGroup',
-				'description': 'Special abilities',	
-				'list': [
-					{
-						'name': 'Snare',
-						'id': 'ability_snare',
-						'duration': 80,
-						'description': 'Create an immobile trap (limit: 1 active)',
-					},
-					{
-						'name': 'Barrage',
-						'id': 'ability_barrage',
-						'duration': 40,
-						'description': 'Release a lot of inaccurate arrows - "Quantity over quality"',
-					},
-					{
-						'name': 'Ignite',
-						'id': 'ability_ignite',
-						'duration': 40,
-						'description': 'Fire a flaming arrow',
-					}
-				]
-			},
-			{	'name': 'Attack',
-				'id': 'attackGroup',
-				'description': 'Basic attacks',	
-				'list': [
-					{
-						'name': 'Plunk',
-						'id': 'attack_plunk',
-						'duration': 20,
-						'description': 'Quick shot',
-					},
-					{
-						'name': 'Power Shot',
-						'id': 'attack_powerShot',
-						'duration': 40,
-						'description': 'Slower, more powerful attack',
-					},
-					{
-						'name': 'Pin',
-						'id': 'attack_pin',
-						'duration': 40,
-						'description': 'Aim for the legs, designed to lock the enemy in place',
-					}
-				]
-			}
-		]
-	},
-	'durationQueued': 0,
-	'durationWaited': 0
+	}
 };
