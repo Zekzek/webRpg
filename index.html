@@ -5,8 +5,8 @@
     <title>Roleplaying Game</title>
     <link rel="stylesheet" href="rpg.css">
     <script type="text/javascript" src="angular.js"></script>
-    <script type="text/javascript" src="SpriteAnimator.js"></script>
     <script type="text/javascript" src="characters.js"></script>
+    <script type="text/javascript" src="SpriteAnimator.js"></script>
     <script type="text/javascript" src="rpg.js"></script>
   </head>
   <body ng-controller="rpgCtrl" style="position:relative">
@@ -18,10 +18,12 @@
           height: 64px;
           background: url({{character.spriteAnimator.image}}) {{character.spriteAnimator.x}}px {{character.spriteAnimator.y}}px;
           position: absolute;
-          left:{{character.position.x * 64}}px; 
-          top:{{character.position.y * 64}}px;">
+          left:{{character.posX * 64}}px; 
+          top:{{character.posY * 64}}px;">
       </img>
     </div>
+    
+    <div id="php_response"></div>
     
     Walk
     <button ng-click="animateAll(SpriteAnimator.WALK_NORTH, 1000)">N</button>

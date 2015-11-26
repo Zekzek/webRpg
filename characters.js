@@ -1,72 +1,100 @@
 RPG_DATABASES = {}
+
 RPG_DATABASES.CHARACTER = {};
 RPG_DATABASES.ACTION = {};
+RPG_DATABASES.WEAPON = {};
+
 RPG_DATABASES.CHARACTER_INSTANCE = {};
+
+
+RPG_DATABASES.getCharacter = function(id) {
+	var instance, base;
+	
+	for (i in RPG_DATABASES.CHARACTER_INSTANCE) {
+		if (RPG_DATABASES.CHARACTER_INSTANCE[i].id == id) {
+			instance = RPG_DATABASES.CHARACTER_INSTANCE[i];
+			break;
+		}
+	}
+	for (i in RPG_DATABASES.CHARACTER) {
+		if (RPG_DATABASES.CHARACTER[i].id == instance.characterId) {
+			base = RPG_DATABASES.CHARACTER[i];
+			break;
+		}
+	}
+	
+	var theCharacter = {'spriteIndex':{ 'x':0, 'y':0 }, 'durationQueued':0, 'durationWaited':0 };
+	RPG_DATABASES.objectMerge(theCharacter, base);
+	RPG_DATABASES.objectMerge(theCharacter, instance);
+	console.debug('theCharacter:', theCharacter);
+	for (var i in theCharacter.actions) {
+		for (var j in RPG_DATABASES.ACTION) {
+			if (theCharacter.actions[i] == RPG_DATABASES.ACTION[j].id) {
+				theCharacter.actions[i] = RPG_DATABASES.ACTION[j];
+				break;
+			}
+		}
+		if (typeof theCharacter.actions[i] == 'string') {
+			console.error("No action found for ", theCharacter.actions[i]);
+		}
+	}
+}
+
+RPG_DATABASES.objectMerge = function (obj1, obj2) {
+	for (var i in obj2) {
+		if ( obj2[i].constructor==Object ) {
+			if (!obj1[i]) { obj1[i] = {}; }
+			RPG_DATABASES.objectMerge(obj1[i], obj2[i]);
+		} else {
+			obj1[i] = obj2[i];
+		}
+	}
+}
 
 RPG_DATABASES.CHARACTER.boy = {
 	'id':'boy',
 	'name':'Boy',
 	'spriteCounts':[9,7,6,6,6],
 	'spritesheet':'image/spritesheet/boy.png',
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			'throwingAxe'
-		]
-	}
+	'actions': [
+		'throwAxe'
+	]
 };
 RPG_DATABASES.CHARACTER.girl = {
 	'id':'girl',
 	'name':'Girl',
 	'spriteCounts':[9,7,6,6,6],
 	'spritesheet':'image/spritesheet/girl.png',
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			'throwingAxe'
-		]
-	}
+	'actions': [
+		'throwAxe'
+	]
 };
 RPG_DATABASES.CHARACTER.guard = {
 	'id':'guard',
 	'name':'Guard',
 	'spriteCounts':[9,7,6,13,6],
 	'spritesheet':'image/spritesheet/guard.png',
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			'throwingAxe'
-		]
-	}
+	'actions': [
+		'throwAxe'
+	]
 };
 RPG_DATABASES.CHARACTER.sorceress = {
 	'id':'sorceress',
 	'name':'Sorceress',
 	'spriteCounts':[9,7,6,13,6],
 	'spritesheet':'image/spritesheet/sorceress.png',
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			'throwingAxe'
-		]
-	}
+	'actions': [
+		'throwAxe'
+	]
 };
 RPG_DATABASES.CHARACTER.defender = {
 	'id':'defender',
 	'name':'Defender',
 	'spriteCounts':[9,7,6,13,6],
 	'spritesheet':'image/spritesheet/defender.png',
-	'actions': {
-		'name': 'Actions',
-		'id': 'actionGroup',
-		'list': [
-			'throwingAxe'
-		]
-	}
+	'actions': [
+		'throwAxe'
+	]
 };
 RPG_DATABASES.CHARACTER.berserker = {
 	'id':'berserker',
@@ -78,12 +106,11 @@ RPG_DATABASES.CHARACTER.berserker = {
 		'threeHitCombo',
 		'challenge',
 		'sweep',
-		'throwingAxe'
+		'throwAxe',
 		'quickAttack',
 		'powerAttack',
 		'knockdown'
-		]
-	}
+	]
 };
 RPG_DATABASES.CHARACTER.archer = {
 	'id':'archer',
@@ -99,8 +126,7 @@ RPG_DATABASES.CHARACTER.archer = {
 		'quickAttack',
 		'powerAttack',
 		'pin'
-		]
-	}
+	]
 };
 	
 /*	Equiped weapons effect all attacks.
@@ -139,7 +165,7 @@ RPG_DATABASES.WEAPON.longBow = {
 RPG_DATABASES.ACTION.keepYourDistance = {
 	'id': 'keepYourDistance',
 	'name': 'Keep Your Distance',
-	'description': 'Do lots of damage at range while preventing your target from closing in',
+	'description': 'Do solid damage at range while preventing your target from closing in',
 	'categoryTree' : ['combo'],
 	'combo' : ['pin', 'powerAttack']
 };
@@ -160,70 +186,70 @@ RPG_DATABASES.ACTION.barrage = {
 RPG_DATABASES.ACTION.ignite = {
 	'id': 'ignite',
 	'name': 'Ignite',
-	'description': 'A flaming attack designed to light the target ablaze'
+	'description': 'A flaming attack designed to light the target ablaze',
 	'categoryTree' : ['ability'],
 	'duration' : 40
 };
 RPG_DATABASES.ACTION.pin = {
 	'id': 'pin',
 	'name': 'Pin',
-	'description': 'Aim for the legs, designed to lock the enemy in place'
+	'description': 'Aim for the legs, designed to lock the enemy in place',
 	'categoryTree' : ['attack'],
 	'duration' : 40
 };
 RPG_DATABASES.ACTION.rush = {
 	'id': 'rush',
 	'name': 'Rush',
-	'description': 'Knockdown, followed by a powerful strike'
+	'description': 'Knockdown, followed by a powerful strike',
 	'categoryTree' : ['combo'],
 	'combo': ['knockdown', 'powerAttack']
 };
 RPG_DATABASES.ACTION.threeHitCombo = {
 	'id': 'threeHitCombo',
 	'name': 'Three-Hit Combo',
-	'description': '3-hit combo building to a powerful attack'
+	'description': '3-hit combo building to a powerful attack',
 	'categoryTree' : ['combo'],
 	'combo': ['quickAttack', 'quickAttack', 'powerAttack']
 };
 RPG_DATABASES.ACTION.challenge = {
 	'id': 'challenge',
 	'name': 'Challenge',
-	'description': 'Encourage an enemy to fight only you (limit: 1 active)'
+	'description': 'Encourage an enemy to fight only you (limit: 1 active)',
 	'categoryTree' : ['ability'],
 	'duration': 10
 };
 RPG_DATABASES.ACTION.sweep = {
 	'id': 'sweep',
 	'name': 'Sweep',
-	'description': 'A spinning attack designed to knockdown everyone nearby'
+	'description': 'A spinning attack designed to knockdown everyone nearby',
 	'categoryTree' : ['ability'],
 	'duration': 40
 };
 RPG_DATABASES.ACTION.throwAxe = {
 	'id': 'throwAxe',
 	'name': 'Throw Axe',
-	'description': 'Hurl a throwing axe'
+	'description': 'Hurl a throwing axe',
 	'categoryTree' : ['ability'],
 	'duration': 30
 };
 RPG_DATABASES.ACTION.quickAttack = {
 	'id': 'quickAttack',
 	'name': 'Quick Attack',
-	'description': 'A fast, weaker attack'
+	'description': 'A fast, weaker attack',
 	'categoryTree' : ['attack'],
 	'duration': 20
 };
 RPG_DATABASES.ACTION.powerAttack = {
 	'id': 'powerAttack',
 	'name': 'Power Attack',
-	'description': 'Slower, more powerful attack'
+	'description': 'Slower, more powerful attack',
 	'categoryTree' : ['attack'],
 	'duration': 40
 };
 RPG_DATABASES.ACTION.knockdown = {
 	'id': 'knockdown',
 	'name': 'Knockdown',
-	'description': 'Strong shove designed to knock the enemy prone'
+	'description': 'Strong shove designed to knock the enemy prone',
 	'categoryTree' : ['attack'],
 	'duration': 20
 };

@@ -1,10 +1,11 @@
 var rpgApp = angular.module('rpgApp', []);
 
-rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
+rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 	$scope.SpriteAnimator = SpriteAnimator;
+	
 	$scope.characters = [];
 	$scope.activeCharacterIndex = 0;
-
+	
 	$scope.actionQueue = [];
 	
 	$scope.getCharacter = function(id) {
@@ -15,12 +16,17 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		}
 		return null;
 	};
-	
+		
 	$scope.addCharacter = function(aChar) {
-		aChar.actionDisplayIdTree = [aChar.actions.id];
+		//aChar.actionDisplayIdTree = [aChar.actions.id];
 		aChar.actionQueue = [];
+		aChar.spriteCounts = JSON.parse(aChar.spriteCounts);
+		aChar.spriteAnimator = new SpriteAnimator(
+			"image/spritesheet/" + aChar.spriteSheet,
+			aChar.spriteCounts[0], aChar.spriteCounts[1], aChar.spriteCounts[2],
+			aChar.spriteCounts[3], aChar.spriteCounts[4]);
 		$scope.characters.push(aChar);
-	}
+	};
 	
 	$scope.getActiveCharacter = function() {
 		return $scope.characters[$scope.activeCharacterIndex]; 
@@ -149,13 +155,40 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope) {
 		}
 	};
 	
+	$scope.php_getAllCharacters = function() {
+		$http({
+			method: 'GET',
+			url: 'database.php?request=getAll'
+		})
+		.then(function successCallback(response) {
+			console.log("getAllCharacters success", response.data);
+			document.getElementById("php_response").innerHTML = response.data;
+			for (var i in response.data) {
+				$scope.addCharacter(response.data[i]);
+			}
+		},
+		function errorCallback(response) {
+			console.log("getAllCharacters failure", response);
+		});
+	};
+	
+	$scope.php_request = function(request) {
+		$http({
+			method: 'GET',
+			url: 'database.php?request=' + request
+		})
+		.then(function successCallback(response) {
+			console.log("populate success", response);
+			$scope.response = response.data;
+			document.getElementById("php_response").innerHTML = response.data;
+		},
+		function errorCallback(response) {
+			console.log("populate failure", response);
+		});
+	};
+	
 	//On initial load
-	$scope.addCharacter(CHARACTER_TYPE.berserker);
-	$scope.addCharacter(CHARACTER_TYPE.archer);
-	$scope.addCharacter(CHARACTER_TYPE.boy);
-	$scope.addCharacter(CHARACTER_TYPE.girl);
-	$scope.addCharacter(CHARACTER_TYPE.guard);
-	$scope.addCharacter(CHARACTER_TYPE.sorceress);
-	$scope.addCharacter(CHARACTER_TYPE.defender);
-	$scope.updateActionDisplay();
+	//$scope.php_request('populate');
+	$scope.php_getAllCharacters();
+	//$scope.updateActionDisplay();
 });
