@@ -187,6 +187,17 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 		});
 	};
 	
+	$scope.objectMerge = function (obj1, obj2) {
+		for (var i in obj2) {
+			if ( obj2[i].constructor==Object ) {
+				if (!obj1[i]) { obj1[i] = {}; }
+				$scope.objectMerge(obj1[i], obj2[i]);
+			} else {
+				obj1[i] = obj2[i];
+			}
+		}
+	};
+	
 	//On initial load
 	//$scope.php_request('populate');
 	$scope.php_getAllCharacters();

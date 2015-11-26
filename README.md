@@ -1,6 +1,11 @@
 <h1>TODO</h1>
 <ol>
-	<li>Move game data to database</li>
+	<li>Get action list from server</li>
+	<li>Build action tree client-side from action list</li>
+	<li>Add animationType, attackMomentum, moveMomentum, and status to attacks</li>
+	<li>Connect weapons to character</li>
+	<li>Get weapons from server</li>
+	<li>Integrate weapons into attack statistics</li>
 	<li>Tie animation to action</li>
 	<li>Grid-based movement</li>
 	<li>Pathing</li>
