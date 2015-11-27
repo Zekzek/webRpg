@@ -45,6 +45,23 @@
 		}
 	}
 	
+	function getActionsFor($characterId) {
+		$myArray = array();
+		$result = $GLOBALS['mysqli']->query(
+			"SELECT *
+			FROM actions
+			INNER JOIN characters_actions
+				ON characters_actions.action_id=actions.id
+				WHERE characters_actions.character_id=".$characterId);
+		if ($result) {
+			while($row = $result->fetch_array(MYSQL_ASSOC)) {
+				$myArray[] = $row;
+			}
+			echo json_encode($myArray);
+			$result->close();
+		}
+	}
+	
 	function getAll($table) {
 		$myArray = array();
 		if ($result = $GLOBALS['mysqli']->query("SELECT * FROM " . $table)) {
@@ -63,6 +80,9 @@
 	else if ($request == 'getAll') {
 		#getAll('characters');
 		getAllCharacterInstances();
+	}
+	else if ($request == 'getActionFor') {
+		getActionsFor($_REQUEST["characterId"]);
 	}
 	mysqli_close($GLOBALS['mysqli']);
 ?>

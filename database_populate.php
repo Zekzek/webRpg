@@ -87,43 +87,43 @@
 		
 	# Insert data into actions
 		query("INSERT INTO actions (name, description, category)
-			VALUES ('Keep Your Distance', 'Do solid damage at range while preventing your target from closing in', '[\'combo\']')");
+			VALUES ('Keep Your Distance', 'Do solid damage at range while preventing your target from closing in', '[\"combo\"]')");
 		$keepYourDistanceId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Snare', 'Create an immobile trap (limit: 1 active)', '[\'ability\']', 80)");
+			VALUES ('Snare', 'Create an immobile trap (limit: 1 active)', '[\"ability\"]', 80)");
 		$snareId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Multi-Shot', 'Release a lot of inaccurate arrows - \"Quantity over quality\"', '[\'ability\']', 40)");
+			VALUES ('Multi-Shot', 'Release a lot of inaccurate arrows - \"Quantity over quality\"', '[\"ability\"]', 40)");
 		$multiShotId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Ignite', 'A flaming attack designed to light the target ablaze', '[\'ability\']', 40)");
+			VALUES ('Ignite', 'A flaming attack designed to light the target ablaze', '[\"ability\"]', 40)");
 		$igniteId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Pin', 'Aim for the legs, designed to lock the enemy in place', '[\'attack\']', 40)");
+			VALUES ('Pin', 'Aim for the legs, designed to lock the enemy in place', '[\"attack\"]', 40)");
 		$pinId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category)
-			VALUES ('Rushing Strike', 'Knockdown, followed by a powerful strike', '[\'combo\']')");
+			VALUES ('Rushing Strike', 'Knockdown, followed by a powerful strike', '[\"combo\"]')");
 		$rushingStrikeId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category)
-			VALUES ('3-hit Combo', '3-hit combo building to a powerful attack', '[\'combo\']')");
+			VALUES ('3-hit Combo', '3-hit combo building to a powerful attack', '[\"combo\"]')");
 		$threeHitComboId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Challenge', 'Encourage an enemy to fight only you (limit: 1 active)', '[\'ability\']', 10)");
+			VALUES ('Challenge', 'Encourage an enemy to fight only you (limit: 1 active)', '[\"ability\"]', 10)");
 		$challengeId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Sweep', 'A spinning attack designed to knockdown everyone nearby', '[\'ability\']', 40)");
+			VALUES ('Sweep', 'A spinning attack designed to knockdown everyone nearby', '[\"ability\"]', 40)");
 		$sweepId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Throw', 'Hurl your weapon at a distant enemy', '[\'ability\']', 30)");
+			VALUES ('Throw', 'Hurl your weapon at a distant enemy', '[\"ability\"]', 30)");
 		$throwId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Quick Attack', 'A fast, weak attack', '[\'attack\']', 20)");
+			VALUES ('Quick Attack', 'A fast, weak attack', '[\"attack\"]', 20)");
 		$quickAttackId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Power Attack', 'A slow, powerful attack', '[\'attack\']', 40)");
+			VALUES ('Power Attack', 'A slow, powerful attack', '[\"attack\"]', 40)");
 		$powerAttackId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Knockdown', 'Strong shove designed to knock the enemy prone', '[\'attack\']', 20)");
+			VALUES ('Knockdown', 'Strong shove designed to knock the enemy prone', '[\"attack\"]', 20)");
 		$knockdownId = mysqli_insert_id($GLOBALS['mysqli']);
 		
 	# Insert data into weapons

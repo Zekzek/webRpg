@@ -23,7 +23,7 @@
     </div>
     
     <div id="php_response"></div>
-    
+
     Walk
     <button ng-click="animateAll(SpriteAnimator.WALK_NORTH, 1000)">N</button>
     <button ng-click="animateAll(SpriteAnimator.WALK_WEST, 1000)">W</button>
@@ -94,13 +94,13 @@
     <button ng-click="animateAll(SpriteAnimator.REVERSE + SpriteAnimator.DEATH, 1000)">RAISE</button>
     Forward+Reverse
     <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.DEATH, 2000)">EXCERCISE</button>
-    
+
     <div ng-repeat="character in characters">
       <div class="banner">{{character.name}} ({{character.durationWaited}})</div>
       <div ng-repeat="action in character.actionQueue track by $index"> - {{action.name}}</div>
       <br />
     </div>
-    
+
     <div class="actionSelectionWrapper">
       <div class="banner">
         <span>{{getActiveCharacter().name}} </span>
@@ -109,18 +109,16 @@
       </div>
       <div ng-repeat="action in getActiveCharacter().actionDisplay.list" ng-click="actionMenu_select(action)">
         <span ng-if="action.list">+</span>
-        <span ng-attr-title="{{action.description}}">{{action.name}}</span>
+        <span ng-attr-title="{{action.description}}">{{action.name}} ({{action.duration}})</span>
       </div>
     </div>
-    
     <div class="actionQueueWrapper">
       <button ng-click="activateAction()">Trigger Action</button>
       <div ng-repeat="action in actionQueue track by $index">
-        <img ng-src="{{action.icon}}"
+        <img ng-src="image/icon/{{action.icon}}"
           style="width:16px; height:16px"></img>
         {{action.name}}
       </div>
     </div>
-    
   </body>
 </html>

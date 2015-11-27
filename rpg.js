@@ -25,7 +25,34 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			"image/spritesheet/" + aChar.spriteSheet,
 			aChar.spriteCounts[0], aChar.spriteCounts[1], aChar.spriteCounts[2],
 			aChar.spriteCounts[3], aChar.spriteCounts[4]);
+		aChar.actionDisplayIdTree = ['list_top'];
+		aChar.durationWaited = 0;
+		aChar.durationQueued = 0;
 		$scope.characters.push(aChar);
+		$scope.php_getActionsFor(aChar);
+	};
+	
+	$scope.addAction = function(aChar, anAction) {
+		anAction.category = JSON.parse(anAction.category);
+		if (!aChar.actions) {
+			aChar.actions = {
+				'id':'list_top',
+				'name':'Actions',
+				'description':'All Actions',
+				'list':{}
+			};
+		}
+		if (!aChar.actions.list[anAction.category]) {
+			aChar.actions.list[anAction.category] = {
+				'id':'list_' + anAction.category[0],
+				'name':anAction.category[0],
+				'description':'List all ' + anAction.category[0],
+				'list':{}
+			}
+		}
+		aChar.actions.list[anAction.category].list[anAction.id] = anAction;	
+		$scope.updateActionDisplay();
+		//TODO
 	};
 	
 	$scope.getActiveCharacter = function() {
@@ -119,7 +146,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			if (nextAction != null) {
 				indexUsed[characterIndex] = (indexUsed[characterIndex]||0) + 1;
 				durationUsed[characterIndex] = (durationUsed[characterIndex]||0) + nextAction.duration;
-				nextAction.icon = $scope.characters[characterIndex].image.left;
+				nextAction.icon = $scope.characters[characterIndex].spriteSheet;
 				$scope.actionQueue.push(nextAction);
 			}
 			else {
@@ -155,13 +182,28 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 		}
 	};
 	
+	$scope.php_getActionsFor = function(character) {
+		$http({
+			method: 'GET',
+			url: 'database.php?request=getActionFor&characterId=' + character.id
+		})
+		.then(function successCallback(response) {
+			document.getElementById("php_response").innerHTML = response.data;
+			for (var i in response.data) {
+				$scope.addAction(character, response.data[i]);
+			}
+		},
+		function errorCallback(response) {
+			console.log("getActionsFor failure", response);
+		});
+	};
+	
 	$scope.php_getAllCharacters = function() {
 		$http({
 			method: 'GET',
 			url: 'database.php?request=getAll'
 		})
 		.then(function successCallback(response) {
-			console.log("getAllCharacters success", response.data);
 			document.getElementById("php_response").innerHTML = response.data;
 			for (var i in response.data) {
 				$scope.addCharacter(response.data[i]);
