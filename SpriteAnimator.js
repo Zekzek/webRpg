@@ -3,6 +3,14 @@ function SpriteAnimator(image, numWalk, numCast, numMelee, numRange, numDeath) {
 	var y = 0;
 	
 	function animate(row, overTime, scope, delay) {
+		if (typeof row == 'string') {
+			console.debug('animate: translating', row);
+			row = SpriteAnimator[row];
+		} else if (typeof row == 'undefined') {
+			console.error('animate: undefined row!');
+			return;
+		}
+		
 		_this.y = -64 * row;
 		var numSprites;
 		var startAt = 0
@@ -90,3 +98,8 @@ SpriteAnimator.DEATH = 16;
 // Modifiers
 SpriteAnimator.REVERSE = 100;
 SpriteAnimator.FORWARD_REVERSE = 200;
+
+// Quick sequence cominations
+SpriteAnimator.EXCERCISE_NORTH = SpriteAnimator.EXCERCISE_WEST = 
+SpriteAnimator.EXCERCISE_SOUTH = SpriteAnimator.EXCERCISE_EAST =
+SpriteAnimator.EXCERCISE = SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.DEATH;

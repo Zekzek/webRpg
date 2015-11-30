@@ -15,12 +15,12 @@
 	function getAllCharacterInstances() {
 		$myArray = array();
 		$result = $GLOBALS['mysqli']->query(
-			#characterInstances.id AS id,
-			#characterInstances.character_id AS character_id,
-			#characterInstances.posX AS posX,
-			#characterInstances.posY AS posY,
-			#characterInstances.posZ AS posZ,
-			"SELECT *,
+			"SELECT
+				characterInstances.id AS id,
+				characterInstances.character_id AS character_id,
+				characterInstances.posX AS posX,
+				characterInstances.posY AS posY,
+				characterInstances.posZ AS posZ,
 				CASE WHEN characterInstances.name IS NULL 
 					THEN characters.name
 					ELSE characterInstances.name
@@ -48,11 +48,29 @@
 	function getActionsFor($characterId) {
 		$myArray = array();
 		$result = $GLOBALS['mysqli']->query(
-			"SELECT *
+			"SELECT
+				actions.id AS id, 
+				actions.name AS name,
+				actions.description AS description,
+				actions.category AS category,
+				(actions.duration * weapons.duration / 100) AS duration,
+				actions.attackMomentum AS attackMomentum,
+				actions.moveMomentum AS moveMomentum,
+				CASE WHEN actions.animation IS NULL
+					THEN weapons.animation
+					ELSE actions.animation
+				END AS animation
 			FROM actions
 			INNER JOIN characters_actions
 				ON characters_actions.action_id=actions.id
-				WHERE characters_actions.character_id=".$characterId);
+			INNER JOIN characters
+				ON characters_actions.character_id=characters.id
+			INNER JOIN characterInstances
+				ON characters.id=characterInstances.character_id
+			LEFT JOIN weapons
+				ON characters.weapon_id=weapons.id
+			WHERE characterInstances.id=".$characterId
+		);
 		if ($result) {
 			while($row = $result->fetch_array(MYSQL_ASSOC)) {
 				$myArray[] = $row;
@@ -77,7 +95,7 @@
 	if ($request == 'populate') {
 		populate();
 	}
-	else if ($request == 'getAll') {
+	else if ($request == 'getAllCharacterInstances') {
 		#getAll('characters');
 		getAllCharacterInstances();
 	}

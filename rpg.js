@@ -28,6 +28,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 		aChar.actionDisplayIdTree = ['list_top'];
 		aChar.durationWaited = 0;
 		aChar.durationQueued = 0;
+		aChar.facingDirection = "SOUTH";
 		$scope.characters.push(aChar);
 		$scope.php_getActionsFor(aChar);
 	};
@@ -121,41 +122,44 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 	
 	$scope.updateActionQueue = function() {
 		$scope.actionQueue.length = 0;
-		var indexUsed = [];
-		var durationUsed = [];
+		var indexScheduled = [];
+		var timeToNext = [];
 		
+		// calculate inital action delay for each character
 		for (var i in $scope.characters) {
+			var nextActionDuration = 0;
 			if ($scope.characters[i].actionQueue[0]) {
-				durationUsed[i] = $scope.characters[i].actionQueue[0].duration - $scope.characters[i].durationWaited;
+				nextActionDuration = $scope.characters[i].actionQueue[0].duration;
 			}
-			else {
-				durationUsed[i] = -$scope.characters[i].durationWaited;
-			}
+			timeToNext[i] = nextActionDuration - $scope.characters[i].durationWaited;
 		}
+		
 		while (true) {
 			var nextAction = null;
 			var characterIndex = -1;
 			var lowestTime = Number.MAX_VALUE;
 			for (var i in $scope.characters) {
-				if ((durationUsed[i]||0) < lowestTime && (indexUsed[i]||0) < $scope.characters[i].actionQueue.length) {
+				if ((timeToNext[i]||0) < lowestTime && (indexScheduled[i]||0) < $scope.characters[i].actionQueue.length) {
 					characterIndex = i;
-					nextAction = $scope.characters[i].actionQueue[(indexUsed[i]||0)];
-					lowestTime = (durationUsed[i]||0);
+					nextAction = $scope.characters[i].actionQueue[(indexScheduled[i]||0)];
+					lowestTime = (timeToNext[i]||0);
 				}
 			}
-			if (nextAction != null) {
-				indexUsed[characterIndex] = (indexUsed[characterIndex]||0) + 1;
-				durationUsed[characterIndex] = (durationUsed[characterIndex]||0) + nextAction.duration;
+			if (nextAction == null) {
+				return; //No next action, action queue updated
+			} else {
+				indexScheduled[characterIndex] = (indexScheduled[characterIndex]||0) + 1;
+				timeToNext[characterIndex] = (timeToNext[characterIndex]||0) + nextAction.duration;
 				nextAction.icon = $scope.characters[characterIndex].spriteSheet;
 				$scope.actionQueue.push(nextAction);
-			}
-			else {
-				break;
 			}
 		}
 	};
 	
 	$scope.activateAction = function() {
+		if (!$scope.actionQueue || $scope.actionQueue.length == 0) {
+			return false;
+		}
 		var action = $scope.actionQueue[0];
 		var character = $scope.getCharacter(action.characterId);
 		character.actionQueue.shift();
@@ -170,12 +174,11 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			}
 		}
 		$scope.updateActionQueue();
+		character.spriteAnimator.animate(action.animation + "_" + character.facingDirection, action.duration * 10, $scope);
+		return true;
 	}
 	
-	$scope.forceAnimate = function(character, row, time) {
-		character.spriteAnimator.animate(row, time, $scope);
-	};
-	
+	//Testing function. Delete later
 	$scope.animateAll = function(row, time) {
 		for (var i in $scope.characters) {
 			$scope.characters[i].spriteAnimator.animate(row, time, $scope);
@@ -188,6 +191,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			url: 'database.php?request=getActionFor&characterId=' + character.id
 		})
 		.then(function successCallback(response) {
+			console.log(response.data);
 			document.getElementById("php_response").innerHTML = response.data;
 			for (var i in response.data) {
 				$scope.addAction(character, response.data[i]);
@@ -201,7 +205,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 	$scope.php_getAllCharacters = function() {
 		$http({
 			method: 'GET',
-			url: 'database.php?request=getAll'
+			url: 'database.php?request=getAllCharacterInstances'
 		})
 		.then(function successCallback(response) {
 			document.getElementById("php_response").innerHTML = response.data;
@@ -220,12 +224,12 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			url: 'database.php?request=' + request
 		})
 		.then(function successCallback(response) {
-			console.log("populate success", response);
+			console.log(request, "success", response);
 			$scope.response = response.data;
 			document.getElementById("php_response").innerHTML = response.data;
 		},
 		function errorCallback(response) {
-			console.log("populate failure", response);
+			console.log(request, "failure", response);
 		});
 	};
 	
