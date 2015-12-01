@@ -109,7 +109,11 @@
       </div>
       <div ng-repeat="action in getActiveCharacter().actionDisplay.list" ng-click="actionMenu_select(action)">
         <span ng-if="action.list">+</span>
-        <span ng-attr-title="{{action.description}}">{{action.name}} ({{action.duration}})</span>
+        <span ng-attr-title="{{action.description}}">{{action.name}}</span>
+        <div class="timer">
+          <div class="duration"></div>
+          <div class="overlay"></div>
+        </div>
       </div>
     </div>
     <div class="actionQueueWrapper">

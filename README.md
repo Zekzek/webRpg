@@ -1,6 +1,5 @@
 <h1>TODO</h1>
 <ol>
-	<li>Fix and Test Boy #1/#2 action bug</li>
 	<li>Action selection clock icon for duration</li>
 	<li>Action target selection</li>
 	<li>Add damage to database actions</li>
