@@ -1,4 +1,3 @@
-
 /* Action Selection */
 .actionSelectionWrapper {
 	position: fixed;
@@ -23,36 +22,3 @@
 	border: solid black 1px;
 
 }
-
-div.timer, div.timer div.duration, div.timer div.overlay {
-	height: 16px;
-	width: 16px;
-	-moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -o-border-radius: 8px;
-    border-radius: 8px;
-}
-
-div.timer div.duration, div.timer div.overlay {
-	position: absolute;
-    clip: rect(0px, 16px, 16px, 8px);
-}
-
-div.timer {
-	display: inline-block;
-	background-color: #999;
-	margin-top: 5px;	
-}
-
-div.timer div.duration {
-	background-color: #44F;
-}
-
-div.timer div.overlay {
-	background-color: #999;
-    -webkit-transform:rotate(50deg);
-    -moz-transform:rotate(50deg);
-    -o-transform:rotate(50deg);
-    transform:rotate(50deg);
-}
-

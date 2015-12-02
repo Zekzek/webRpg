@@ -1,0 +1,15 @@
+<div class="timer" ng-show="action.duration">
+  <div class="background"></div>
+  <div class="firstHalf"></div>
+  <div class="overlay" ng-show="action.duration < 500" ng-attr-style="
+    -webkit-transform:rotate({{action.duration/500*180}}deg); 
+    -moz-transform:rotate({{action.duration/500*180}}deg);
+    -o-transform:rotate({{action.duration/500*180}}deg); 
+    transform:rotate({{action.duration/500*180}}deg);"></div>
+  <div class="secondHalf" ng-show="action.duration > 500" ng-attr-style="
+    -webkit-transform:rotate({{(action.duration-500)/500*180}}deg); 
+    -moz-transform:rotate({{(action.duration-500)/500*180}}deg);
+    -o-transform:rotate({{(action.duration-500)/500*180}}deg); 
+    transform:rotate({{(action.duration-500)/500*180}}deg);"></div>
+  <img class="timer" src="image/timer.png"></img>
+</div>

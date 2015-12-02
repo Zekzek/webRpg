@@ -249,3 +249,13 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 	$scope.php_getAllCharacters();
 	//$scope.updateActionDisplay();
 });
+
+rpgApp.directive('timer', function(){
+	return {
+		restrict: 'E',
+		scope: {
+			action : '='
+		},
+		templateUrl: 'timer.html'
+	}
+});

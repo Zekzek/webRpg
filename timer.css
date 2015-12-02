@@ -1,0 +1,38 @@
+div.timer {
+	position: relative;
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	margin-top: 3px;
+	margin-left: 3px;
+}
+
+div.timer div.background, div.timer div.firstHalf, div.timer div.overlay, div.timer div.secondHalf {
+	height: 16px;
+	width: 16px;
+	-moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -o-border-radius: 8px;
+    border-radius: 8px;
+	position: absolute;
+	z-index: 1;
+}
+
+div.timer div.firstHalf, div.timer div.overlay, div.timer div.secondHalf {
+    clip: rect(0px, 16px, 16px, 8px);
+}
+
+div.timer div.background, div.timer div.overlay {
+	background-color: #BBB;
+}
+
+div.timer div.firstHalf, div.timer div.secondHalf {
+	background-color: #44F;
+}
+
+img.timer {
+	position: relative;
+	width: 16px;
+	margin-top: -3px;
+	z-index: 2;
+}

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Roleplaying Game</title>
     <link rel="stylesheet" href="rpg.css">
+    <link rel="stylesheet" href="timer.css">
     <script type="text/javascript" src="angular.js"></script>
     <script type="text/javascript" src="SpriteAnimator.js"></script>
     <script type="text/javascript" src="rpg.js"></script>
@@ -108,12 +109,9 @@
         {{getActiveCharacter().actionDisplay.name}}
       </div>
       <div ng-repeat="action in getActiveCharacter().actionDisplay.list" ng-click="actionMenu_select(action)">
+        <timer action="action"></timer>
         <span ng-if="action.list">+</span>
         <span ng-attr-title="{{action.description}}">{{action.name}}</span>
-        <div class="timer">
-          <div class="duration"></div>
-          <div class="overlay"></div>
-        </div>
       </div>
     </div>
     <div class="actionQueueWrapper">
