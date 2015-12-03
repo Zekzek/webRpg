@@ -125,7 +125,7 @@
       <div ng-repeat="action in actionQueue track by $index">
         <img ng-src="image/icon/{{action.icon}}"
           style="width:16px; height:16px"></img>
-        {{action.name}}
+        {{action.name}}({{action.damage}})
         <img ng-src="image/icon/{{action.targetIcon}}"
           style="width:16px; height:16px"></img>
       </div>

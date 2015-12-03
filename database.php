@@ -54,6 +54,7 @@
 				actions.description AS description,
 				actions.category AS category,
 				(actions.duration * weapons.duration / 100) AS duration,
+				(actions.damage * weapons.damage / 100) AS damage,
 				actions.attackMomentum AS attackMomentum,
 				actions.moveMomentum AS moveMomentum,
 				CASE WHEN actions.animation IS NULL

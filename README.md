@@ -1,6 +1,5 @@
 <h1>TODO</h1>
 <ol>
-	<li>Add damage to database actions</li>
 	<li>Add HP to characters database</li>
 	<li>Pathing</li>
 	<li>Automatic move to attack</li>

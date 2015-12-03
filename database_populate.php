@@ -33,6 +33,7 @@
 			description VARCHAR(100),
 			category VARCHAR(30),
 			duration INT(3),
+			damage INT(5),
 			attackMomentum INT(2),
 			moveMomentum INT(2),
 			animation VARCHAR(20))");
@@ -140,17 +141,17 @@
 		query("INSERT INTO actions (name, description, category)
 			VALUES ('Keep Your Distance', 'Do solid damage at range while preventing your target from closing in', '[\"combo\"]')");
 		$keepYourDistanceId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration, animation)
-			VALUES ('Snare', 'Create an immobile trap (limit: 1 active)', '[\"ability\"]', 800, 'EXCERCISE')");
+		query("INSERT INTO actions (name, description, category, duration, damage, animation)
+			VALUES ('Snare', 'Create an immobile trap (limit: 1 active)', '[\"ability\"]', 800, 50, 'EXCERCISE')");
 		$snareId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Multi-Shot', 'Release a lot of inaccurate arrows - \"Quantity over quality\"', '[\"ability\"]', 400)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Multi-Shot', 'Release a lot of inaccurate arrows - \"Quantity over quality\"', '[\"ability\"]', 400, 10)");
 		$multiShotId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Ignite', 'A flaming attack designed to light the target ablaze', '[\"ability\"]', 400)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Ignite', 'A flaming attack designed to light the target ablaze', '[\"ability\"]', 400, 10)");
 		$igniteId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Pin', 'Aim for the legs, designed to lock the enemy in place', '[\"attack\"]', 400)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Pin', 'Aim for the legs, designed to lock the enemy in place', '[\"attack\"]', 400, 10)");
 		$pinId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category)
 			VALUES ('Rushing Strike', 'Knockdown, followed by a powerful strike', '[\"combo\"]')");
@@ -158,23 +159,23 @@
 		query("INSERT INTO actions (name, description, category)
 			VALUES ('3-hit Combo', '3-hit combo building to a powerful attack', '[\"combo\"]')");
 		$threeHitComboId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Challenge', 'Encourage an enemy to fight only you (limit: 1 active)', '[\"ability\"]', 100)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Challenge', 'Encourage an enemy to fight only you (limit: 1 active)', '[\"ability\"]', 100, 1)");
 		$challengeId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Sweep', 'A spinning attack designed to knockdown everyone nearby', '[\"ability\"]', 400)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Sweep', 'A spinning attack designed to knockdown everyone nearby', '[\"ability\"]', 400, 10)");
 		$sweepId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Throw', 'Hurl your weapon at a distant enemy', '[\"ability\"]', 300)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Throw', 'Hurl your weapon at a distant enemy', '[\"ability\"]', 300, 10)");
 		$throwId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Quick Attack', 'A fast, weak attack', '[\"attack\"]', 200)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Quick Attack', 'A fast, weak attack', '[\"attack\"]', 200, 10)");
 		$quickAttackId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Power Attack', 'A slow, powerful attack', '[\"attack\"]', 400)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Power Attack', 'A slow, powerful attack', '[\"attack\"]', 400, 25)");
 		$powerAttackId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category, duration)
-			VALUES ('Knockdown', 'Strong shove designed to knock the enemy prone', '[\"attack\"]', 200)");
+		query("INSERT INTO actions (name, description, category, duration, damage)
+			VALUES ('Knockdown', 'Strong shove designed to knock the enemy prone', '[\"attack\"]', 200, 5)");
 		$knockdownId = mysqli_insert_id($GLOBALS['mysqli']);
 		
 	# Insert data into status effet
