@@ -83,26 +83,28 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 	};
 	
 	$scope.actionMenu_select = function(action) {
-		if (action.list) {
-			$scope.getActiveCharacter().actionDisplayIdTree.unshift(action.id);
-		}
-		else {
-			if (action.combo) {
-				for (i in action.combo) {
-					$scope.queueAction($scope.getActiveCharacter(), $scope.getAction(action.combo[i]));
-				}
-			}
-			else {
-				$scope.queueAction($scope.getActiveCharacter(), action);
-			}
-			$scope.nextCharacter();
-		}
+		$scope.getActiveCharacter().actionDisplayIdTree.unshift(action.id);
 		$scope.updateActionDisplay();
 	};
 	
-	$scope.queueAction = function(character, action) {
+	$scope.actionMenu_queue = function(action, target) {
+		if (action.combo) {
+			for (i in action.combo) {
+				$scope.queueAction($scope.getActiveCharacter(), $scope.getAction(action.combo[i]), target);
+			}
+		}
+		else {
+			$scope.queueAction($scope.getActiveCharacter(), action, target);
+		}
+		$scope.actionMenu_back();
+		$scope.nextCharacter();
+		$scope.updateActionDisplay();
+	};
+	
+	$scope.queueAction = function(character, action, target) {
 		action.durationLeft = action.duration;
 		action.characterId = character.id;
+		action.targetId = target.id;
 		character.actionQueue.push(action);
 		character.durationQueued += action.duration;
 	};
@@ -151,6 +153,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 				indexScheduled[characterIndex] = (indexScheduled[characterIndex]||0) + 1;
 				timeToNext[characterIndex] = (timeToNext[characterIndex]||0) + nextAction.duration;
 				nextAction.icon = $scope.characters[characterIndex].spriteSheet;
+				nextAction.targetIcon = $scope.getCharacter(nextAction.targetId).spriteSheet;
 				$scope.actionQueue.push(nextAction);
 			}
 		}

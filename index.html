@@ -108,10 +108,16 @@
         <span ng-if="getActiveCharacter().actionDisplayIdTree.length > 1" ng-click="actionMenu_back()">-</span>
         {{getActiveCharacter().actionDisplay.name}}
       </div>
-      <div ng-repeat="action in getActiveCharacter().actionDisplay.list" ng-click="actionMenu_select(action)">
+      <div ng-repeat="action in getActiveCharacter().actionDisplay.list" 
+      ng-click="actionMenu_select(action)">
         <timer action="action"></timer>
         <span ng-if="action.list">+</span>
         <span ng-attr-title="{{action.description}}">{{action.name}}</span>
+      </div>
+      <div ng-hide="getActiveCharacter().actionDisplay.list" 
+      ng-repeat="character in characters" 
+      ng-click="actionMenu_queue(getActiveCharacter().actionDisplay, character)">
+        <span>{{character.name}}</span>
       </div>
     </div>
     <div class="actionQueueWrapper">
@@ -120,6 +126,8 @@
         <img ng-src="image/icon/{{action.icon}}"
           style="width:16px; height:16px"></img>
         {{action.name}}
+        <img ng-src="image/icon/{{action.targetIcon}}"
+          style="width:16px; height:16px"></img>
       </div>
     </div>
   </body>
