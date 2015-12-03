@@ -1,6 +1,8 @@
 <h1>TODO</h1>
 <ol>
-	<li>Add HP to characters database</li>
+	<li>Deal damage with attacks</li>
+	<li>Respond to lethal damage</li>
+	<li>Move actions</li>
 	<li>Pathing</li>
 	<li>Automatic move to attack</li>
 	<li>Apply regeneration</li>

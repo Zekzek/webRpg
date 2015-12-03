@@ -14,6 +14,7 @@
 		query("CREATE TABLE characters (
 			id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
 			name VARCHAR(30) NOT NULL,
+			hp int(5) UNSIGNED,
 			spriteCounts VARCHAR(25) NOT NULL,
 			spriteSheet VARCHAR(50) NOT NULL,
 			weapon_id INT(6) UNSIGNED)");
@@ -21,6 +22,7 @@
 			id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
 			character_id INT(6) UNSIGNED, 
 			name VARCHAR(30),
+			hp int(5) UNSIGNED,
 			spriteCounts VARCHAR(25),
 			spriteSheet VARCHAR(50),
 			weapon_id INT(6) UNSIGNED,
@@ -97,26 +99,26 @@
 		$longBowId = mysqli_insert_id($GLOBALS['mysqli']);
 		
 	# Insert data into characters
-		query("INSERT INTO characters (name, spriteCounts, spriteSheet, weapon_id)
-			VALUES ('Boy', '[9,7,6,6,6]', 'boy.png', ".$weakFistId.")");
+		query("INSERT INTO characters (name, hp, spriteCounts, spriteSheet, weapon_id)
+			VALUES ('Boy', 20, '[9,7,6,6,6]', 'boy.png', ".$weakFistId.")");
 		$boyId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO characters (name, spriteCounts, spriteSheet, weapon_id)
-			VALUES ('Girl', '[9,7,6,6,6]', 'girl.png', ".$weakFistId.")");
+		query("INSERT INTO characters (name, hp, spriteCounts, spriteSheet, weapon_id)
+			VALUES ('Girl', 19, '[9,7,6,6,6]', 'girl.png', ".$weakFistId.")");
 		$girlId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO characters (name, spriteCounts, spriteSheet, weapon_id)
-			VALUES ('Guard', '[9,7,6,13,6]', 'guard.png', ".$spearId.")");
+		query("INSERT INTO characters (name, hp, spriteCounts, spriteSheet, weapon_id)
+			VALUES ('Guard', 60, '[9,7,6,13,6]', 'guard.png', ".$spearId.")");
 		$guardId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO characters (name, spriteCounts, spriteSheet, weapon_id)
-			VALUES ('Sorceress', '[9,7,6,13,6]', 'sorceress.png', ".$wandId.")");
+		query("INSERT INTO characters (name, hp, spriteCounts, spriteSheet, weapon_id)
+			VALUES ('Sorceress', 50, '[9,7,6,13,6]', 'sorceress.png', ".$wandId.")");
 		$sorceressId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO characters (name, spriteCounts, spriteSheet, weapon_id)
-			VALUES ('Defender', '[9,7,6,13,6]', 'defender.png', ".$spearId.")");
+		query("INSERT INTO characters (name, hp, spriteCounts, spriteSheet, weapon_id)
+			VALUES ('Defender', 70, '[9,7,6,13,6]', 'defender.png', ".$spearId.")");
 		$defenderId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO characters (name, spriteCounts, spriteSheet, weapon_id)
-			VALUES ('Berserker', '[9,7,6,13,6]', 'berserker.png', ".$greatMaceId.")");
+		query("INSERT INTO characters (name, hp, spriteCounts, spriteSheet, weapon_id)
+			VALUES ('Berserker', 65, '[9,7,6,13,6]', 'berserker.png', ".$greatMaceId.")");
 		$berserkerId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO characters (name, spriteCounts, spriteSheet, weapon_id)
-			VALUES ('Archer', '[9,7,6,13,6]', 'archer.png', ".$bowId.")");
+		query("INSERT INTO characters (name, hp, spriteCounts, spriteSheet, weapon_id)
+			VALUES ('Archer', 55, '[9,7,6,13,6]', 'archer.png', ".$bowId.")");
 		$archerId = mysqli_insert_id($GLOBALS['mysqli']);
 		
 	# Insert data into characterInstances

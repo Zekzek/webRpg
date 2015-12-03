@@ -97,7 +97,7 @@
     <button ng-click="animateAll(SpriteAnimator.FORWARD_REVERSE + SpriteAnimator.DEATH, 2000)">EXCERCISE</button>
 
     <div ng-repeat="character in characters">
-      <div class="banner">{{character.name}} ({{character.durationWaited}})</div>
+      <div class="banner">{{character.name}} ({{character.hp}}hp)</div>
       <div ng-repeat="action in character.actionQueue track by $index"> - {{action.name}}</div>
       <br />
     </div>

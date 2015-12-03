@@ -25,6 +25,10 @@
 					THEN characters.name
 					ELSE characterInstances.name
 				END AS name,
+				CASE WHEN characterInstances.hp IS NULL 
+					THEN characters.hp
+					ELSE characterInstances.hp
+				END AS hp,
 				CASE WHEN characterInstances.spriteCounts IS NULL 
 					THEN characters.spriteCounts
 					ELSE characterInstances.spriteCounts
