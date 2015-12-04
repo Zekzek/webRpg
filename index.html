@@ -101,7 +101,6 @@
       <div ng-repeat="action in character.actionQueue track by $index"> - {{action.name}}</div>
       <br />
     </div>
-
     <div class="actionSelectionWrapper">
       <div class="banner">
         <span>{{getActiveCharacter().name}} </span>
@@ -125,7 +124,7 @@
       <div ng-repeat="action in actionQueue track by $index">
         <img ng-src="image/icon/{{action.icon}}"
           style="width:16px; height:16px"></img>
-        {{action.name}}({{action.damage}})
+        {{action.name}}
         <img ng-src="image/icon/{{action.targetIcon}}"
           style="width:16px; height:16px"></img>
       </div>

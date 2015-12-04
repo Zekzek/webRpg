@@ -1,8 +1,10 @@
 <h1>TODO</h1>
 <ol>
-	<li>Deal damage with attacks</li>
-	<li>Respond to lethal damage</li>
+	<li>Remove dead character actions from action queue</li>
+	<li>Remove dead characters from action selection rotation</li>
+	<li>Bug in action queue, not showing everything</li>
 	<li>Move actions</li>
+	<li>Flow time</li>
 	<li>Pathing</li>
 	<li>Automatic move to attack</li>
 	<li>Apply regeneration</li>

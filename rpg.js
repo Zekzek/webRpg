@@ -28,7 +28,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 		aChar.actionDisplayIdTree = ['list_top'];
 		aChar.durationWaited = 0;
 		aChar.durationQueued = 0;
-		aChar.facingDirection = "SOUTH";
+		if (!aChar.facingDirection) aChar.facingDirection = "SOUTH";
 		$scope.characters.push(aChar);
 		$scope.php_getActionsFor(aChar);
 	};
@@ -89,8 +89,9 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 	
 	$scope.actionMenu_queue = function(action, target) {
 		if (action.combo) {
-			for (i in action.combo) {
-				$scope.queueAction($scope.getActiveCharacter(), $scope.getAction(action.combo[i]), target);
+			var subActions = action.combo.split('>');
+			for (i in subActions) {
+				$scope.queueAction($scope.getActiveCharacter(), $scope.getAction(subActions[i]), target);
 			}
 		}
 		else {
@@ -102,6 +103,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 	};
 	
 	$scope.queueAction = function(character, action, target) {
+		console.debug('queueAction', character, action, target);
 		action.durationLeft = action.duration;
 		action.characterId = character.id;
 		action.targetId = target.id;
@@ -165,10 +167,15 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 		}
 		var action = $scope.actionQueue[0];
 		var character = $scope.getCharacter(action.characterId);
+		var target = $scope.getCharacter(action.targetId);
 		character.actionQueue.shift();
 		character.durationQueued -= action.duration;
 		var timePassed = action.duration - character.durationWaited;
 		character.durationWaited = 0;
+		target.hp -= action.damage;
+		if (target.hp <= 0) {
+			target.spriteAnimator.animate('DEATH', 1000, $scope);
+		}
 		
 		//add to duration waited for all characters that didn't get to act.
 		for (var i in $scope.characters) {
@@ -194,14 +201,13 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			url: 'database.php?request=getActionFor&characterId=' + character.id
 		})
 		.then(function successCallback(response) {
-			console.log(response.data);
 			document.getElementById("php_response").innerHTML = response.data;
 			for (var i in response.data) {
 				$scope.addAction(character, response.data[i]);
 			}
 		},
 		function errorCallback(response) {
-			console.log("getActionsFor failure", response);
+			console.error("getActionsFor failure", response);
 		});
 	};
 	
@@ -217,7 +223,7 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			}
 		},
 		function errorCallback(response) {
-			console.log("getAllCharacters failure", response);
+			console.error("getAllCharacters failure", response);
 		});
 	};
 	
@@ -227,12 +233,11 @@ rpgApp.controller('rpgCtrl', function($scope, $rootScope, $http) {
 			url: 'database.php?request=' + request
 		})
 		.then(function successCallback(response) {
-			console.log(request, "success", response);
 			$scope.response = response.data;
 			document.getElementById("php_response").innerHTML = response.data;
 		},
 		function errorCallback(response) {
-			console.log(request, "failure", response);
+			console.error(request, "failure", response);
 		});
 	};
 	

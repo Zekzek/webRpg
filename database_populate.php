@@ -7,7 +7,6 @@
 		query("DROP TABLE IF EXISTS statusEffects");
 		query("DROP TABLE IF EXISTS weapons");
 		query("DROP TABLE IF EXISTS characters_actions");
-		query("DROP TABLE IF EXISTS actions_subactions");
 		query("DROP TABLE IF EXISTS actions_statusEffects");
 
 	# Recreate all tables
@@ -28,12 +27,14 @@
 			weapon_id INT(6) UNSIGNED,
 			posX INT(4),
 			posY INT(4),
-			posZ INT(4))");
+			posZ INT(4),
+			facingDirection VARCHAR(5))");
 		query("CREATE TABLE actions (
 			id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
 			name VARCHAR(30) NOT NULL,
 			description VARCHAR(100),
 			category VARCHAR(30),
+			combo VARCHAR(100),
 			duration INT(3),
 			damage INT(5),
 			attackMomentum INT(2),
@@ -54,10 +55,6 @@
 		query("CREATE TABLE characters_actions (
 			character_id INT(6) UNSIGNED, 
 			action_id INT(6) UNSIGNED)");
-		query("CREATE TABLE actions_subactions (
-			action_id INT(6) UNSIGNED, 
-			subaction_id INT(6) UNSIGNED,
-			actionOrder INT(2) UNSIGNED)");
 		query("CREATE TABLE actions_statusEffects (
 			action_id INT(6) UNSIGNED, 
 			statusEffect_id INT(6) UNSIGNED,
@@ -122,27 +119,24 @@
 		$archerId = mysqli_insert_id($GLOBALS['mysqli']);
 		
 	# Insert data into characterInstances
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $boyId . ", 'Boy #1', 3, 3, 0)");
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $boyId . ", 'Boy #2', 3, 4, 0)");
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $girlId . ", 'Girl #1', 3, 5, 0)");
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $guardId . ", 'Guard #1', 4, 3, 0)");
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $sorceressId . ", 'Sorceress #1', 4, 4, 0)");
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $defenderId . ", 'Defender #1', 4, 5, 0)");
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $berserkerId . ", 'Berserker #1', 5, 3, 0)");
-		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ)
-			VALUES (" . $archerId . ", 'Archer #1', 5, 4, 0)");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $sorceressId . ", 'Sorceress #1', 3, 3, 0, 'EAST')");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $defenderId . ", 'Defender #1', 3, 4, 0, 'EAST')");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $berserkerId . ", 'Berserker #1', 3, 5, 0, 'EAST')");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $archerId . ", 'Archer #1', 3, 6, 0, 'EAST')");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $boyId . ", 'Boy #1', 8, 3, 0, 'WEST')");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $guardId . ", 'Guard #1', 8, 4, 0, 'WEST')");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $girlId . ", 'Girl #1', 8, 5, 0, 'WEST')");
+		query("INSERT INTO characterInstances (character_id, name, posX, posY, posZ, facingDirection)
+			VALUES (" . $guardId . ", 'Guard #2', 8, 6, 0, 'WEST')");
 		
 	# Insert data into actions
-		query("INSERT INTO actions (name, description, category)
-			VALUES ('Keep Your Distance', 'Do solid damage at range while preventing your target from closing in', '[\"combo\"]')");
-		$keepYourDistanceId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration, damage, animation)
 			VALUES ('Snare', 'Create an immobile trap (limit: 1 active)', '[\"ability\"]', 800, 50, 'EXCERCISE')");
 		$snareId = mysqli_insert_id($GLOBALS['mysqli']);
@@ -155,12 +149,6 @@
 		query("INSERT INTO actions (name, description, category, duration, damage)
 			VALUES ('Pin', 'Aim for the legs, designed to lock the enemy in place', '[\"attack\"]', 400, 10)");
 		$pinId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category)
-			VALUES ('Rushing Strike', 'Knockdown, followed by a powerful strike', '[\"combo\"]')");
-		$rushingStrikeId = mysqli_insert_id($GLOBALS['mysqli']);
-		query("INSERT INTO actions (name, description, category)
-			VALUES ('3-hit Combo', '3-hit combo building to a powerful attack', '[\"combo\"]')");
-		$threeHitComboId = mysqli_insert_id($GLOBALS['mysqli']);
 		query("INSERT INTO actions (name, description, category, duration, damage)
 			VALUES ('Challenge', 'Encourage an enemy to fight only you (limit: 1 active)', '[\"ability\"]', 100, 1)");
 		$challengeId = mysqli_insert_id($GLOBALS['mysqli']);
@@ -179,6 +167,15 @@
 		query("INSERT INTO actions (name, description, category, duration, damage)
 			VALUES ('Knockdown', 'Strong shove designed to knock the enemy prone', '[\"attack\"]', 200, 5)");
 		$knockdownId = mysqli_insert_id($GLOBALS['mysqli']);
+		query("INSERT INTO actions (name, description, category, combo)
+			VALUES ('Keep Your Distance', 'Do solid damage at range while preventing your target from closing in', '[\"combo\"]', '".$pinId.">".$powerAttackId."')");
+		$keepYourDistanceId = mysqli_insert_id($GLOBALS['mysqli']);
+		query("INSERT INTO actions (name, description, category, combo)
+			VALUES ('Rushing Strike', 'Knockdown, followed by a powerful strike', '[\"combo\"]', '".$knockdownId.">".$powerAttackId."')");
+		$rushingStrikeId = mysqli_insert_id($GLOBALS['mysqli']);
+		query("INSERT INTO actions (name, description, category, combo)
+			VALUES ('3-hit Combo', '3-hit combo building to a powerful attack', '[\"combo\"]', '".$quickAttackId.">".$quickAttackId.">".$powerAttackId."')");
+		$threeHitComboId = mysqli_insert_id($GLOBALS['mysqli']);
 		
 	# Insert data into status effet
 		query("INSERT INTO statusEffects (name, description)
@@ -229,21 +226,5 @@
 			VALUES (".$archerId.",".$threeHitComboId.")");
 		query("INSERT INTO characters_actions (character_id, action_id)
 			VALUES (".$archerId.",".$powerAttackId.")");
-		
-		# Insert data into actions_subactions
-		query("INSERT INTO actions_subactions (action_id, subaction_id, actionOrder)
-			VALUES (".$threeHitComboId.",".$quickAttackId.",1)");
-		query("INSERT INTO actions_subactions (action_id, subaction_id, actionOrder)
-			VALUES (".$threeHitComboId.",".$quickAttackId.",2)");
-		query("INSERT INTO actions_subactions (action_id, subaction_id, actionOrder)
-			VALUES (".$threeHitComboId.",".$powerAttackId.",3)");
-		query("INSERT INTO actions_subactions (action_id, subaction_id, actionOrder)
-			VALUES (".$keepYourDistanceId.",".$pinId.",1)");
-		query("INSERT INTO actions_subactions (action_id, subaction_id, actionOrder)
-			VALUES (".$keepYourDistanceId.",".$powerAttackId.",2)");
-		query("INSERT INTO actions_subactions (action_id, subaction_id, actionOrder)
-			VALUES (".$rushingStrikeId.",".$knockdownId.",1)");
-		query("INSERT INTO actions_subactions (action_id, subaction_id, actionOrder)
-			VALUES (".$rushingStrikeId.",".$powerAttackId.",1)");
 	}
 ?>

@@ -21,6 +21,7 @@
 				characterInstances.posX AS posX,
 				characterInstances.posY AS posY,
 				characterInstances.posZ AS posZ,
+				characterInstances.facingDirection AS facingDirection,
 				CASE WHEN characterInstances.name IS NULL 
 					THEN characters.name
 					ELSE characterInstances.name
@@ -57,6 +58,7 @@
 				actions.name AS name,
 				actions.description AS description,
 				actions.category AS category,
+				actions.combo AS combo,
 				(actions.duration * weapons.duration / 100) AS duration,
 				(actions.damage * weapons.damage / 100) AS damage,
 				actions.attackMomentum AS attackMomentum,
